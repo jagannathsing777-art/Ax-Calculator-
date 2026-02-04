@@ -1,0 +1,172 @@
+====================== ANDROIDMANIFEST.XML ======================
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.calculator">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="UltraCalc"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8350487027830666~4512846957"/>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+    </application>
+</manifest>
+
+====================== ACTIVITY_MAIN.XML ======================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1E1E1E"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvInput"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="end|bottom"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"/>
+
+    <TextView
+        android:id="@+id/tvOutput"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="end|bottom"
+        android:textColor="#00FF00"
+        android:textSize="42sp"
+        android:textStyle="bold"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:rowCount="6">
+
+        <Button android:id="@+id/btnAC" android:text="AC" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnBracketOpen" android:text="(" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnBracketClose" android:text=")" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnDiv" android:text="/" style="@style/CalcBtn"/>
+
+        <Button android:id="@+id/btnSin" android:text="sin" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnCos" android:text="cos" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnTan" android:text="tan" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnMul" android:text="*" style="@style/CalcBtn"/>
+
+        <Button android:id="@+id/btn7" android:text="7" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btn8" android:text="8" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btn9" android:text="9" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnMinus" android:text="-" style="@style/CalcBtn"/>
+
+        <Button android:id="@+id/btn4" android:text="4" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btn5" android:text="5" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btn6" android:text="6" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnPlus" android:text="+" style="@style/CalcBtn"/>
+
+        <Button android:id="@+id/btn1" android:text="1" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btn2" android:text="2" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btn3" android:text="3" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnEqual" android:text="=" style="@style/CalcBtn"/>
+
+        <Button android:id="@+id/btn0" android:text="0" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnDot" android:text="." style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnSqrt" android:text="√" style="@style/CalcBtn"/>
+        <Button android:id="@+id/btnBack" android:text="⌫" style="@style/CalcBtn"/>
+
+    </GridLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-8350487027830666/5155118437"/>
+
+</LinearLayout>
+
+====================== STYLES.XML ======================
+<resources>
+    <style name="CalcBtn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>
+
+====================== MAINACTIVITY.JAVA ======================
+package com.example.calculator;
+
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.gms.ads.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView tvInput,tvOutput;
+    String exp="";
+    AdView adView;
+    InterstitialAd interstitialAd;
+
+    @Override
+    protected void onCreate(Bundle b){
+        super.onCreate(b);
+        setContentView(R.layout.activity_main);
+
+        tvInput=findViewById(R.id.tvInput);
+        tvOutput=findViewById(R.id.tvOutput);
+
+        MobileAds.initialize(this,s->{});
+        adView=findViewById(R.id.adView);
+        adView.loadAd(new AdRequest.Builder().build());
+
+        InterstitialAd.load(this,"ca-app-pub-8350487027830666/8902791756",
+            new AdRequest.Builder().build(),
+            new InterstitialAdLoadCallback(){
+                @Override public void onAdLoaded(InterstitialAd ad){interstitialAd=ad;}
+            });
+
+        int[] ids={R.id.btn0,R.id.btn1,R.id.btn2,R.id.btn3,R.id.btn4,R.id.btn5,R.id.btn6,
+        R.id.btn7,R.id.btn8,R.id.btn9,R.id.btnDot,R.id.btnPlus,R.id.btnMinus,
+        R.id.btnMul,R.id.btnDiv,R.id.btnSin,R.id.btnCos,R.id.btnTan,R.id.btnSqrt,
+        R.id.btnBracketOpen,R.id.btnBracketClose};
+
+        for(int id:ids){
+            findViewById(id).setOnClickListener(v->{
+                String t=((Button)v).getText().toString();
+                if(t.equals("√"))t="sqrt";
+                if(t.equals("sin")||t.equals("cos")||t.equals("tan")||t.equals("sqrt"))
+                    exp+=t+"(";
+                else exp+=t;
+                tvInput.setText(exp);
+            });
+        }
+
+        findViewById(R.id.btnAC).setOnClickListener(v->{exp="";tvInput.setText("");tvOutput.setText("");});
+        findViewById(R.id.btnBack).setOnClickListener(v->{if(!exp.isEmpty()){exp=exp.substring(0,exp.length()-1);tvInput.setText(exp);}});
+        findViewById(R.id.btnEqual).setOnClickListener(v->{try{tvOutput.setText(String.valueOf(eval(exp)));if(interstitialAd!=null)interstitialAd.show(this);}catch(Exception e){tvOutput.setText("Error");}});
+    }
+
+    public static double eval(final String s){return new Object(){int p=-1,c;void n(){c=(++p<s.length())?s.charAt(p):-1;}boolean e(int x){while(c==' ')n();if(c==x){n();return true;}return false;}double parse(){n();double x=E();if(p<s.length())throw new RuntimeException();return x;}double E(){double x=T();for(;;){if(e('+'))x+=T();else if(e('-'))x-=T();else return x;}}double T(){double x=F();for(;;){if(e('*'))x*=F();else if(e('/')){double d=F();if(d==0)throw new RuntimeException();x/=d;}else return x;}}double F(){if(e('+'))return F();if(e('-'))return -F();double x;int s0=p;if(e('(')){x=E();e(')');}else if((c>='0'&&c<='9')||c=='.'){while((c>='0'&&c<='9')||c=='.')n();x=Double.parseDouble(s.substring(s0,p));}else if(c>='a'&&c<='z'){while(c>='a'&&c<='z')n();String f=s.substring(s0,p);x=F();if(f.equals("sqrt"))x=Math.sqrt(x);else if(f.equals("sin"))x=Math.sin(Math.toRadians(x));else if(f.equals("cos"))x=Math.cos(Math.toRadians(x));else if(f.equals("tan"))x=Math.tan(Math.toRadians(x));}else throw new RuntimeException();return x;}}.parse();}
+}

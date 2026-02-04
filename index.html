@@ -1,0 +1,2510 @@
+<!DOCTYPE html>        
+<html lang="en">        
+<head>        
+    <meta charset="UTF-8">        
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+    <title>Ax Calculator </title>        
+        
+    <!-- ✅ SEO (Google Search Friendly) -->        
+    <meta name="description" content="Ax Calculator is an all-in-one calculator with currency converter, unit converters, percentage calculator, time tools, real-time currency rates and crypto prices. Fast, clean and modern UI.">        
+    <meta name="keywords" content="calculator, currency converter, unit converter, percentage calculator, time calculator, UltraCalc, Crypto Price, live crypto, live currency rates">        
+    <meta name="author" content="Ax Calculator">        
+    <meta name="robots" content="index, follow">        
+        
+    <!-- ✅ Open Graph (WhatsApp/Facebook Preview) -->        
+    <meta property="og:title" content="Ax Calculator - All in One Smart Calculator">        
+    <meta property="og:description" content="Calculator + Currency + Unit Converters + Percentage + Time tools + Live Crypto & Live Currency rates. Fast UI.">        
+    <meta property="og:type" content="website">        
+        
+    <!-- Using Google Fonts -->        
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">        
+        
+    <style>        
+        * {        
+            margin: 0;        
+            padding: 0;        
+            box-sizing: border-box;        
+            font-family: 'Poppins', sans-serif;        
+        }        
+        
+        body {        
+            background-color: #ffffff;        
+            color: #333;        
+            height: 100vh;        
+            display: flex;        
+            overflow: hidden;        
+        }        
+        
+        /* --- SIDEBAR STYLING --- */        
+        .sidebar {        
+            width: 280px;        
+            background-color: #ffffff;        
+            border-right: 1px solid #f0f0f0;        
+            display: flex;        
+            flex-direction: column;        
+            height: 100%;        
+            overflow-y: auto;        
+            padding-bottom: 20px;        
+        }        
+        
+        .brand {        
+            padding: 20px;        
+            font-size: 1.2rem;        
+            font-weight: 700;        
+            color: #2575fc;        
+            display: flex;        
+            align-items: center;        
+            gap: 10px;        
+        }        
+        
+        .brand span {        
+            color: #fbbc05;        
+            font-size: 1.4rem;        
+        }        
+        
+        /* PREMIUM BADGE IN SIDEBAR */        
+        .premium-status-box {        
+            margin: 0 20px 10px 20px;        
+            padding: 10px;        
+            background: linear-gradient(135deg, #fbbc05 0%, #ff9f00 100%);        
+            color: white;        
+            border-radius: 8px;        
+            font-size: 0.8rem;        
+            font-weight: 600;        
+            text-align: center;        
+            cursor: pointer;        
+            box-shadow: 0 4px 10px rgba(251, 188, 5, 0.3);        
+            display: none; /* Hidden by default, shown via JS */        
+        }        
+        
+        .menu-category {        
+            font-size: 0.75rem;        
+            color: #999;        
+            padding: 15px 20px 5px 20px;        
+            text-transform: uppercase;        
+            font-weight: 600;        
+            letter-spacing: 0.5px;        
+        }        
+        
+        .menu-item {        
+            padding: 10px 20px;        
+            cursor: pointer;        
+            display: flex;        
+            align-items: center;        
+            gap: 12px;        
+            font-size: 0.9rem;        
+            color: #555;        
+            transition: all 0.2s;        
+            border-left: 3px solid transparent;        
+        }        
+        
+        .menu-item:hover {        
+            background-color: #f8f9fa;        
+            color: #2575fc;        
+        }        
+        
+        .menu-item.active {        
+            background-color: #e8f0fe;        
+            color: #1967d2;        
+            border-left: 3px solid #1967d2;        
+            font-weight: 500;        
+        }        
+        
+        /* LOCKED ITEM STYLE */        
+        .menu-item.locked-feature {        
+            opacity: 0.8;        
+        }        
+        .lock-icon {        
+            margin-left: auto;        
+            font-size: 0.8rem;        
+            color: #999;        
+        }        
+        
+        .menu-icon {        
+            width: 20px;        
+            text-align: center;        
+        }        
+        
+        /* --- MAIN CONTENT AREA --- */        
+        .main-content {        
+            flex: 1;        
+            display: flex;        
+            flex-direction: column;        
+            background-color: #ffffff;        
+            height: 100%;        
+            overflow-y: auto;        
+            position: relative;        
+        }        
+        
+        /* --- AD SPACE --- */        
+        .ad-space-container {        
+            padding: 10px 20px;        
+            background-color: #fff;        
+        }        
+        .ad-space {        
+            width: 100%;        
+            height: 60px;        
+            background-color: #f1f3f4;        
+            border-radius: 8px;        
+            display: flex;        
+            align-items: center;        
+            justify-content: center;        
+            color: #999;        
+            font-size: 0.8rem;        
+            letter-spacing: 1px;        
+        }        
+        
+        .page-header {        
+            padding: 10px 20px;        
+            color: #1967d2;        
+            font-size: 0.9rem;        
+            font-weight: 600;        
+        }        
+        
+        /* --- SECTIONS --- */        
+        .section-view {        
+            display: none;        
+            padding: 20px;        
+            max-width: 800px;        
+            margin: 0 auto;        
+            width: 100%;        
+        }        
+        .section-view.active {        
+            display: block;        
+        }        
+        
+        /* --- CALCULATOR STYLING --- */        
+        .calc-wrapper {        
+            display: flex;        
+            flex-direction: column;        
+            align-items: center;        
+            margin-top: 20px;        
+        }        
+        
+        .calculator-display-styled {        
+            width: 100%;        
+            text-align: right;        
+            font-size: 3rem;        
+            color: #202124;        
+            padding: 20px;        
+            margin-bottom: 20px;        
+            font-weight: 400;        
+            border: none;        
+            background: transparent;        
+            word-break: break-all;        
+        }        
+        
+        .calculator-grid {        
+            display: grid;        
+            grid-template-columns: repeat(4, 1fr);        
+            gap: 15px;        
+            width: 100%;        
+            max-width: 400px;        
+        }        
+        
+        /* SCIENTIFIC GRID OVERRIDE */
+        .calculator-grid.scientific-grid {
+            grid-template-columns: repeat(5, 1fr);
+            max-width: 500px;
+            gap: 10px;
+        }
+        
+        .calc-btn-round {        
+            width: 70px;        
+            height: 70px;        
+            border-radius: 50%;        
+            border: none;        
+            font-size: 1.5rem;        
+            cursor: pointer;        
+            display: flex;        
+            align-items: center;        
+            justify-content: center;        
+            background-color: #f8f9fa;        
+            color: #202124;        
+            transition: background 0.2s;        
+            margin: 0 auto;        
+        }
+
+        /* SCIENTIFIC BUTTON SMALLER */
+        .scientific-grid .calc-btn-round {
+            width: 60px;
+            height: 60px;
+            font-size: 1.1rem;
+        }
+
+        .sci-func {
+            background-color: #e8eaed;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .calc-btn-round:hover { background-color: #e8eaed; }        
+        .calc-btn-round.operator { background-color: #f1f3f4; color: #1967d2; font-size: 1.8rem; }        
+        .calc-btn-round.clear { background-color: #fce8e6; color: #d93025; font-size: 1.2rem; font-weight: 600; }        
+        .calc-btn-round.equals { background-color: #1967d2; color: white; }        
+        
+        /* --- CONVERTER & LIST STYLING --- */        
+        .converter-box {        
+            background: #fff;        
+            padding: 20px;        
+        }        
+        
+        .converter-row {        
+            display: flex;        
+            flex-direction: column;        
+            gap: 10px;        
+            margin-bottom: 20px;        
+        }        
+        
+        .converter-input, .converter-select {        
+            padding: 15px;        
+            border: 1px solid #dadce0;        
+            border-radius: 8px;        
+            font-size: 1rem;        
+            width: 100%;        
+            outline: none;        
+        }        
+        
+        .converter-btn {        
+            width: 100%;        
+            padding: 15px;        
+            background-color: #1967d2;        
+            color: white;        
+            border: none;        
+            border-radius: 8px;        
+            font-size: 1rem;        
+            font-weight: 500;        
+            cursor: pointer;        
+        }        
+        
+        .converter-result {        
+            margin-top: 20px;        
+            padding: 20px;        
+            background-color: #f8f9fa;        
+            border-radius: 8px;        
+            text-align: center;        
+            font-size: 1.1rem;        
+            color: #1967d2;        
+            white-space: pre-line;        
+            line-height: 1.6;        
+            word-break: break-word;        
+        }        
+        
+        /* --- ALL CURRENCY LIST STYLING --- */        
+        .all-rates-list {        
+            display: flex;        
+            flex-direction: column;        
+            gap: 10px;        
+            margin-top: 20px;        
+            max-height: 60vh;        
+            overflow-y: auto;        
+            border: 1px solid #eee;        
+            border-radius: 8px;        
+        }        
+        
+        .rate-item {        
+            display: flex;        
+            align-items: center;        
+            justify-content: space-between;        
+            padding: 15px;        
+            border-bottom: 1px solid #f0f0f0;        
+            background: #fff;        
+        }        
+        .rate-item:last-child { border-bottom: none; }        
+        
+        .rate-info {        
+            display: flex;        
+            align-items: center;        
+            gap: 15px;        
+        }        
+        
+        .rate-flag { font-size: 2rem; display: flex; align-items: center;}        
+        .crypto-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }        
+        
+        .rate-details {        
+            display: flex;        
+            flex-direction: column;        
+        }        
+        
+        .rate-country { font-weight: 600; font-size: 0.9rem; color: #333; }        
+        .rate-code { font-size: 0.8rem; color: #888; }        
+        .rate-value { font-weight: 700; color: #1967d2; font-size: 1.1rem; }        
+        .rate-value.crypto-price { color: #008751; }        
+        
+        /* --- LIMIT REACHED MODAL --- */        
+        .modal-overlay {        
+            position: fixed;        
+            top: 0;        
+            left: 0;        
+            width: 100%;        
+            height: 100%;        
+            background: rgba(0,0,0,0.6);        
+            display: none;        
+            align-items: center;        
+            justify-content: center;        
+            z-index: 1000;        
+        }        
+        
+        .modal-box {        
+            background: white;        
+            width: 90%;        
+            max-width: 350px;        
+            border-radius: 12px;        
+            padding: 25px;        
+            text-align: center;        
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);        
+        }        
+        
+        .modal-icon { font-size: 3rem; margin-bottom: 15px; display: block; }        
+        .modal-title { font-size: 1.2rem; font-weight: 700; color: #333; margin-bottom: 10px; }        
+        .modal-desc { font-size: 0.9rem; color: #666; margin-bottom: 20px; line-height: 1.5; }        
+        
+        .modal-btn {        
+            background-color: #1967d2;        
+            color: white;        
+            width: 100%;        
+            padding: 12px;        
+            border: none;        
+            border-radius: 6px;        
+            font-size: 1rem;        
+            font-weight: 500;        
+            cursor: pointer;        
+            display: flex;        
+            align-items: center;        
+            justify-content: center;        
+            gap: 10px;        
+        }        
+        
+        .limit-counter {        
+            font-size: 0.75rem;        
+            background: #ffeeba;        
+            color: #856404;        
+            padding: 2px 6px;        
+            border-radius: 4px;        
+            margin-left: 10px;        
+            display: inline-block;        
+        }        
+        
+        /* Responsive */        
+        @media (max-width: 768px) {        
+            .sidebar {        
+                position: absolute;        
+                z-index: 100;        
+                transform: translateX(-100%);        
+                transition: transform 0.3s;        
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);        
+            }        
+            .sidebar.open { transform: translateX(0); }        
+            .menu-toggle { display: block; padding: 15px; font-size: 1.5rem; cursor: pointer; }        
+        }        
+        @media (min-width: 769px) { .menu-toggle { display: none; } }        
+    </style>        
+</head>        
+<body>        
+        
+    <!-- Sidebar -->        
+    <div class="sidebar" id="sidebar">        
+        <div class="brand"><span>⚡</span> Ax Calculator</div>        
+        
+        <!-- Premium Status (Visible when Premium is Active) -->        
+        <div id="premiumStatus" class="premium-status-box" onclick="showRewardAd()">        
+            👑 Premium Active<br><span id="premiumTimer" style="font-size:0.7rem; opacity:0.9;">29:59 left</span>        
+        </div>        
+        
+        <!-- Go Premium Button -->        
+        <div class="menu-item" style="color: #fbbc05; font-weight: 600;" onclick="showRewardAd()">        
+            <span class="menu-icon">🏆</span> Unlock Premium        
+        </div>        
+        
+        <div class="menu-item active" onclick="showSection('standard', this)">        
+            <span class="menu-icon">🧮</span> Standard Calc <span id="calcLimitBadge" class="limit-counter">5/5</span>        
+        </div>
+
+        <!-- ✅ NEW SCIENTIFIC CALCULATOR (LOCKED) -->
+        <div class="menu-category">ADVANCED CALCS (PRO)</div>
+        <div class="menu-item locked-feature" onclick="showSection('scientific-calc', this)">
+            <span class="menu-icon">🔬</span> Scientific Calc <span class="lock-icon">🔒</span>
+        </div>
+        
+        <div class="menu-category">FINANCE & CRYPTO</div>        
+        <div class="menu-item" onclick="showSection('currency', this)">        
+            <span class="menu-icon">💱</span> Single Converter        
+        </div>        
+                
+        <!-- ✅ LOCKED: ALL CURRENCY RATES -->        
+        <div class="menu-item locked-feature" onclick="showSection('all-rates', this)">        
+            <span class="menu-icon">🌍</span> All Currency Rates <span class="lock-icon">🔒</span>        
+        </div>        
+                
+        <!-- ✅ LOCKED: TOP 100 CRYPTO -->        
+        <div class="menu-item locked-feature" onclick="showSection('crypto-market', this)">        
+            <span class="menu-icon">₿</span> Top 100 Crypto <span class="lock-icon">🔒</span>        
+        </div>        
+        
+        <!-- ✅ FINANCE HUB (LOCKED) -->        
+        <div class="menu-category">FINANCE HUB (PRO)</div>        
+        <div class="menu-item locked-feature" onclick="showSection('loan-emi', this)">        
+            <span class="menu-icon">🏦</span> Loan / EMI Calc <span class="lock-icon">🔒</span>        
+        </div>        
+        <div class="menu-item locked-feature" onclick="showSection('investment', this)">        
+            <span class="menu-icon">📈</span> SIP / RD / FD <span class="lock-icon">🔒</span>        
+        </div>        
+        
+        <div class="menu-category">UNIT CONVERTERS</div>        
+        <div class="menu-item" onclick="showSection('length', this)">        
+            <span class="menu-icon">📏</span> Length Converter        
+        </div>        
+        <div class="menu-item" onclick="showSection('area', this)">        
+            <span class="menu-icon">⬛</span> Area Converter        
+        </div>        
+        <div class="menu-item" onclick="showSection('weight', this)">        
+            <span class="menu-icon">⚖️</span> Weight Converter        
+        </div>        
+        <div class="menu-item" onclick="showSection('volume', this)">        
+            <span class="menu-icon">🧊</span> Volume Converter        
+        </div>        
+        <div class="menu-item" onclick="showSection('temperature', this)">        
+            <span class="menu-icon">🌡️</span> Temperature        
+        </div>        
+        
+        <!-- ✅ ULTRA CONVERTERS (LOCKED) -->        
+        <div class="menu-category">ULTRA CONVERTERS (PRO)</div>        
+        <div class="menu-item locked-feature" onclick="showSection('speed', this)">        
+            <span class="menu-icon">🚀</span> Speed Converter <span class="lock-icon">🔒</span>        
+        </div>        
+        <div class="menu-item locked-feature" onclick="showSection('data', this)">        
+            <span class="menu-icon">💾</span> Data (MB/GB) <span class="lock-icon">🔒</span>        
+        </div>        
+        <div class="menu-item locked-feature" onclick="showSection('pressure', this)">        
+            <span class="menu-icon">⚙️</span> Pressure/Power <span class="lock-icon">🔒</span>        
+        </div>        
+        
+        <div class="menu-category">EXTRA TOOLS</div>        
+        <div class="menu-item" onclick="showSection('percentage', this)">        
+            <span class="menu-icon">%</span> Percentage Calculator        
+        </div>        
+        <div class="menu-item" onclick="showSection('time', this)">        
+            <span class="menu-icon">⏰</span> Time Calculator        
+        </div>        
+                
+        <!-- ✅ NEW HISTORY FEATURE (LOCKED) -->        
+        <div class="menu-item locked-feature" onclick="showSection('history-section', this)">        
+            <span class="menu-icon">🕒</span> Save History <span class="lock-icon">🔒</span>        
+        </div>        
+        
+        <!-- ✅ SETTINGS MENU -->        
+        <div class="menu-category">SETTINGS</div>        
+        <div class="menu-item" onclick="showSection('settings', this)">        
+            <span class="menu-icon">⚙️</span> Settings        
+        </div>        
+        
+        <div class="menu-category">APP INFO</div>        
+        <div class="menu-item" onclick="showSection('about', this)">        
+            <span class="menu-icon">ℹ️</span> About Us        
+        </div>        
+        <div class="menu-item" onclick="showSection('privacy', this)">        
+            <span class="menu-icon">🔒</span> Privacy Policy        
+        </div>        
+        
+        <div class="menu-item" onclick="showSection('terms', this)">        
+            <span class="menu-icon">📜</span> Terms & Conditions        
+        </div>        
+        <div class="menu-item" onclick="showSection('disclaimer', this)">        
+            <span class="menu-icon">⚠️</span> Disclaimer        
+        </div>        
+        <div class="menu-item" onclick="showSection('contact', this)">        
+            <span class="menu-icon">📩</span> Contact Us        
+        </div>        
+        <div class="menu-item" onclick="showSection('datasafety', this)">        
+            <span class="menu-icon">🛡️</span> Data Safety        
+        </div>        
+    </div>        
+        
+    <!-- Main Content -->        
+    <div class="main-content">        
+        <div class="menu-toggle" onclick="toggleSidebar()">☰</div>        
+        
+        <!-- ✅ Ad Placeholder -->        
+        <div class="ad-space-container">        
+            <div class="ad-space">ADVERTISEMENT SPACE</div>        
+        </div>        
+        
+        <div class="page-header" id="pageTitle">Standard Calculator</div>        
+        
+        <!-- 1. STANDARD CALCULATOR -->        
+        <div id="standard" class="section-view active">        
+            <div class="calc-wrapper">        
+                <div class="calculator-display-styled" id="display">0</div>        
+                <div class="calculator-grid">        
+                    <button class="calc-btn-round clear" onclick="clearDisplay()">AC</button>        
+                    <button class="calc-btn-round operator" onclick="backspace()">⌫</button>        
+                    <button class="calc-btn-round operator" onclick="appendToDisplay('%')">%</button>        
+                    <button class="calc-btn-round operator" onclick="appendToDisplay('/')">÷</button>        
+        
+                    <button class="calc-btn-round" onclick="appendToDisplay('7')">7</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('8')">8</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('9')">9</button>        
+                    <button class="calc-btn-round operator" onclick="appendToDisplay('*')">×</button>        
+        
+                    <button class="calc-btn-round" onclick="appendToDisplay('4')">4</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('5')">5</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('6')">6</button>        
+                    <button class="calc-btn-round operator" onclick="appendToDisplay('-')">−</button>        
+        
+                    <button class="calc-btn-round" onclick="appendToDisplay('1')">1</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('2')">2</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('3')">3</button>        
+                    <button class="calc-btn-round operator" onclick="appendToDisplay('+')">+</button>        
+        
+                    <button class="calc-btn-round" onclick="appendToDisplay('00')">00</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('0')">0</button>        
+                    <button class="calc-btn-round" onclick="appendToDisplay('.')">.</button>        
+                    <button class="calc-btn-round equals" onclick="calculateResult()">=</button>        
+                </div>        
+            </div>        
+        </div>        
+
+        <!-- ✅ NEW: SCIENTIFIC CALCULATOR (PRO) FIXED -->
+        <div id="scientific-calc" class="section-view">
+            <div class="calc-wrapper">
+                <div class="calculator-display-styled" id="sciDisplay" style="font-size:2rem;">0</div>
+                <div class="calculator-grid scientific-grid">
+                    
+                    <!-- Row 1 -->
+                    <button class="calc-btn-round sci-func" id="btnInv" onclick="toggleInv()">INV</button>
+                    <button class="calc-btn-round sci-func" id="btnRad" onclick="toggleRad()">RAD</button>
+                    <button class="calc-btn-round sci-func" onclick="appendToSci('!')">x!</button>
+                    <button class="calc-btn-round sci-func" onclick="appendToSci('(')">(</button>
+                    <button class="calc-btn-round sci-func" onclick="appendToSci(')')">)</button>
+
+                    <!-- Row 2 -->
+                    <button class="calc-btn-round sci-func" id="btnSin" onclick="handleTrig('sin')">sin</button>
+                    <button class="calc-btn-round sci-func" id="btnCos" onclick="handleTrig('cos')">cos</button>
+                    <button class="calc-btn-round sci-func" id="btnTan" onclick="handleTrig('tan')">tan</button>
+                    <button class="calc-btn-round clear" onclick="clearSci()">C</button>
+                    <button class="calc-btn-round operator" onclick="backspaceSci()">⌫</button>
+
+                    <!-- Row 3 -->
+                    <button class="calc-btn-round sci-func" id="btnLn" onclick="handleLog('ln')">ln</button>
+                    <button class="calc-btn-round sci-func" id="btnLog" onclick="handleLog('log')">log</button>
+                    <button class="calc-btn-round sci-func" id="btnSqrt" onclick="handleRoot()">√</button>
+                    <button class="calc-btn-round sci-func" onclick="appendToSci('^')">^</button>
+                    <button class="calc-btn-round operator" onclick="appendToSci('/')">÷</button>
+
+                    <!-- Row 4 -->
+                    <button class="calc-btn-round" onclick="appendToSci('7')">7</button>
+                    <button class="calc-btn-round" onclick="appendToSci('8')">8</button>
+                    <button class="calc-btn-round" onclick="appendToSci('9')">9</button>
+                    <button class="calc-btn-round sci-func" onclick="appendToSci('π')">π</button>
+                    <button class="calc-btn-round operator" onclick="appendToSci('*')">×</button>
+
+                    <!-- Row 5 -->
+                    <button class="calc-btn-round" onclick="appendToSci('4')">4</button>
+                    <button class="calc-btn-round" onclick="appendToSci('5')">5</button>
+                    <button class="calc-btn-round" onclick="appendToSci('6')">6</button>
+                    <button class="calc-btn-round sci-func" onclick="appendToSci('e')">e</button>
+                    <button class="calc-btn-round operator" onclick="appendToSci('-')">−</button>
+
+                    <!-- Row 6 -->
+                    <button class="calc-btn-round" onclick="appendToSci('1')">1</button>
+                    <button class="calc-btn-round" onclick="appendToSci('2')">2</button>
+                    <button class="calc-btn-round" onclick="appendToSci('3')">3</button>
+                    <button class="calc-btn-round operator" onclick="appendToSci('%')">%</button>
+                    <button class="calc-btn-round operator" onclick="appendToSci('+')">+</button>
+
+                    <!-- Row 7 -->
+                    <button class="calc-btn-round" onclick="appendToSci('00')">00</button>
+                    <button class="calc-btn-round" onclick="appendToSci('0')">0</button>
+                    <button class="calc-btn-round" onclick="appendToSci('.')">.</button>
+                    <button class="calc-btn-round equals" style="grid-column: span 2; width: 100%; border-radius: 40px;" onclick="calculateSci()">=</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2. SINGLE CURRENCY CONVERTER -->        
+        <div id="currency" class="section-view">        
+            <div class="converter-box">        
+                <div class="converter-row">        
+                    <label>Amount</label>        
+                    <input type="number" id="currencyAmount" class="converter-input" placeholder="Enter amount" value="1">        
+                </div>        
+        
+                <div class="converter-row">        
+                    <label>From</label>        
+                    <select id="fromCurrency" class="converter-select"></select>        
+                </div>        
+        
+                <div class="converter-row">        
+                    <label>To</label>        
+                    <select id="toCurrency" class="converter-select"></select>        
+                </div>        
+        
+                <button class="converter-btn" onclick="convertCurrency()">Convert Currency</button>        
+                <div class="converter-result" id="currencyResult">Result will appear here</div>        
+                <p id="apiStatusText" style="text-align:center; font-size:0.8rem; margin-top:10px; color:#888;">Checking Live Rates...</p>        
+            </div>        
+        </div>        
+        
+        <!-- 3. ALL CURRENCY RATES (NOW LOCKED) -->        
+        <div id="all-rates" class="section-view">        
+            <div class="converter-box">        
+                <h3>All Currency Rates</h3>        
+                <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">Rates are compared to Base Currency</p>        
+        
+                <div class="converter-row">        
+                    <input type="number" id="baseAmountAll" class="converter-input" value="1" placeholder="Amount">        
+                    <select id="baseCurrencyAll" class="converter-select"></select>        
+                </div>        
+        
+                <div class="converter-row">        
+                    <input type="text" id="searchCurrency" class="converter-input" placeholder="Search Country (e.g. India, Japan)..." onkeyup="updateAllRates()">        
+                </div>        
+        
+                <button class="converter-btn" onclick="updateAllRates()">Show/Update Rates</button>        
+                <div id="allRatesList" class="all-rates-list"></div>        
+            </div>        
+        </div>        
+        
+        <!-- 4. TOP 100 CRYPTO MARKET (NOW LOCKED) -->        
+        <div id="crypto-market" class="section-view">        
+            <div class="converter-box">        
+                <h3>Top 100 Crypto Market 🔴 Live</h3>        
+                <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">Real-time prices from CoinGecko API</p>        
+                <button class="converter-btn" onclick="loadCryptoData()" style="margin-bottom:15px;">Refresh Prices ↻</button>        
+                <div id="cryptoLoading" style="text-align:center; padding:20px; color:#666;">Loading Data...</div>        
+                <div id="cryptoList" class="all-rates-list"></div>        
+            </div>        
+        </div>        
+                
+        <!-- ✅ 5. HISTORY SECTION (NEW) -->        
+        <div id="history-section" class="section-view">        
+            <div class="converter-box">        
+                <h3>Calculation History</h3>        
+                <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">Your recent calculations are saved here.</p>        
+                        
+                <div id="historyList" class="all-rates-list" style="max-height: 400px; margin-bottom: 20px;">        
+                    <div style="padding:20px; text-align:center; color:#999;">No history yet.</div>        
+                </div>        
+        
+                <button class="converter-btn" onclick="shareHistoryText()" style="margin-bottom: 10px; background-color: #28a745;">📤 Share History</button>        
+                <button class="converter-btn" onclick="clearHistoryData()" style="background-color: #d93025;">🗑️ Delete All History</button>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ PRO: LOAN / EMI CALCULATOR -->        
+        <div id="loan-emi" class="section-view">        
+            <div class="converter-box">        
+                <h3>Loan / EMI Calculator</h3>        
+                <div class="converter-row">        
+                    <label>Loan Amount (Principal)</label>        
+                    <input type="number" id="emiP" class="converter-input" placeholder="100000">        
+                </div>        
+                <div class="converter-row">        
+                    <label>Interest Rate (% per year)</label>        
+                    <input type="number" id="emiR" class="converter-input" placeholder="10">        
+                </div>        
+                <div class="converter-row">        
+                    <label>Tenure (Years)</label>        
+                    <input type="number" id="emiN" class="converter-input" placeholder="5">        
+                </div>        
+                <button class="converter-btn" onclick="calcEMI()">Calculate EMI</button>        
+                <div class="converter-result" id="emiResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ PRO: INVESTMENT (SIP/FD) -->        
+        <div id="investment" class="section-view">        
+            <div class="converter-box">        
+                <h3>SIP Calculator</h3>        
+                <div class="converter-row">        
+                    <input type="number" id="sipAmount" class="converter-input" placeholder="Monthly Investment">        
+                    <input type="number" id="sipRate" class="converter-input" placeholder="Expected Return %">        
+                    <input type="number" id="sipYears" class="converter-input" placeholder="Time Period (Years)">        
+                </div>        
+                <button class="converter-btn" onclick="calcSIP()">Calculate SIP Returns</button>        
+                <div class="converter-result" id="sipResult">Result</div>        
+        
+                <hr style="margin:20px 0; border-top:1px dashed #ddd;">        
+                <h3>FD Calculator</h3>        
+                <div class="converter-row">        
+                    <input type="number" id="fdAmount" class="converter-input" placeholder="Total Deposit">        
+                    <input type="number" id="fdRate" class="converter-input" placeholder="Interest Rate %">        
+                    <input type="number" id="fdYears" class="converter-input" placeholder="Time Period (Years)">        
+                </div>        
+                <button class="converter-btn" onclick="calcFD()">Calculate FD Maturity</button>        
+                <div class="converter-result" id="fdResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <!-- 4. UNIT CONVERTERS -->        
+        <div id="length" class="section-view">        
+            <div class="converter-box">        
+                <div class="converter-row">        
+                    <input type="number" id="lengthValue" class="converter-input" placeholder="Enter length">        
+                    <select id="lengthFrom" class="converter-select">        
+                        <option value="meters">Meters</option>        
+                        <option value="kilometers">Kilometers</option>        
+                        <option value="centimeters">Centimeters</option>        
+                        <option value="millimeters">Millimeters</option>        
+                        <option value="inches">Inches</option>        
+                        <option value="feet">Feet</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="lengthTo" class="converter-select">        
+                        <option value="centimeters">Centimeters</option>        
+                        <option value="meters">Meters</option>        
+                        <option value="kilometers">Kilometers</option>        
+                        <option value="inches">Inches</option>        
+                        <option value="feet">Feet</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertLength()">Convert Length</button>        
+                <div class="converter-result" id="lengthResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ PRO: SPEED CONVERTER -->        
+        <div id="speed" class="section-view">        
+            <div class="converter-box">        
+                <h3>Speed Converter</h3>        
+                <div class="converter-row">        
+                    <input type="number" id="speedValue" class="converter-input" placeholder="Value">        
+                    <select id="speedFrom" class="converter-select">        
+                        <option value="kmh">Km/h</option>        
+                        <option value="mph">Miles/h</option>        
+                        <option value="ms">Meter/sec</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="speedTo" class="converter-select">        
+                        <option value="mph">Miles/h</option>        
+                        <option value="kmh">Km/h</option>        
+                        <option value="ms">Meter/sec</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertSpeed()">Convert</button>        
+                <div class="converter-result" id="speedResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ PRO: DATA CONVERTER -->        
+        <div id="data" class="section-view">        
+            <div class="converter-box">        
+                <h3>Data Storage Converter</h3>        
+                <div class="converter-row">        
+                    <input type="number" id="dataValue" class="converter-input" placeholder="Value">        
+                    <select id="dataFrom" class="converter-select">        
+                        <option value="mb">MB (Megabytes)</option>        
+                        <option value="gb">GB (Gigabytes)</option>        
+                        <option value="tb">TB (Terabytes)</option>        
+                        <option value="kb">KB (Kilobytes)</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="dataTo" class="converter-select">        
+                        <option value="gb">GB (Gigabytes)</option>        
+                        <option value="mb">MB (Megabytes)</option>        
+                        <option value="tb">TB (Terabytes)</option>        
+                        <option value="kb">KB (Kilobytes)</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertData()">Convert</button>        
+                <div class="converter-result" id="dataResult">Result</div>        
+            </div>        
+        </div>        
+        
+         <!-- ✅ PRO: PRESSURE/POWER -->        
+         <div id="pressure" class="section-view">        
+            <div class="converter-box">        
+                <h3>Power Converter</h3>        
+                <div class="converter-row">        
+                    <input type="number" id="powerValue" class="converter-input" placeholder="Value">        
+                    <select id="powerFrom" class="converter-select">        
+                        <option value="watt">Watts (W)</option>        
+                        <option value="kw">Kilowatts (kW)</option>        
+                        <option value="hp">Horsepower (hp)</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="powerTo" class="converter-select">        
+                        <option value="hp">Horsepower (hp)</option>        
+                        <option value="kw">Kilowatts (kW)</option>        
+                        <option value="watt">Watts (W)</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertPower()">Convert</button>        
+                <div class="converter-result" id="powerResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <div id="area" class="section-view">        
+            <div class="converter-box">        
+                <div class="converter-row">        
+                    <input type="number" id="areaValue" class="converter-input" placeholder="Enter area">        
+                    <select id="areaFrom" class="converter-select">        
+                        <option value="sqMeters">Square Meters</option>        
+                        <option value="sqFeet">Square Feet</option>        
+                        <option value="acres">Acres</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="areaTo" class="converter-select">        
+                        <option value="sqFeet">Square Feet</option>        
+                        <option value="sqMeters">Square Meters</option>        
+                        <option value="acres">Acres</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertArea()">Convert Area</button>        
+                <div class="converter-result" id="areaResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <div id="weight" class="section-view">        
+            <div class="converter-box">        
+                <div class="converter-row">        
+                    <input type="number" id="weightValue" class="converter-input" placeholder="Enter weight">        
+                    <select id="weightFrom" class="converter-select">        
+                        <option value="kilograms">Kilograms</option>        
+                        <option value="grams">Grams</option>        
+                        <option value="pounds">Pounds</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="weightTo" class="converter-select">        
+                        <option value="pounds">Pounds</option>        
+                        <option value="kilograms">Kilograms</option>        
+                        <option value="grams">Grams</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertWeight()">Convert Weight</button>        
+                <div class="converter-result" id="weightResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <div id="volume" class="section-view">        
+            <div class="converter-box">        
+                <div class="converter-row">        
+                    <input type="number" id="volumeValue" class="converter-input" placeholder="Enter volume">        
+                    <select id="volumeFrom" class="converter-select">        
+                        <option value="liters">Liters</option>        
+                        <option value="milliliters">Milliliters</option>        
+                        <option value="gallons">Gallons</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="volumeTo" class="converter-select">        
+                        <option value="gallons">Gallons</option>        
+                        <option value="liters">Liters</option>        
+                        <option value="milliliters">Milliliters</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertVolume()">Convert Volume</button>        
+                <div class="converter-result" id="volumeResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <div id="temperature" class="section-view">        
+            <div class="converter-box">        
+                <div class="converter-row">        
+                    <input type="number" id="tempValue" class="converter-input" placeholder="Enter temp">        
+                    <select id="tempFrom" class="converter-select">        
+                        <option value="celsius">Celsius (°C)</option>        
+                        <option value="fahrenheit">Fahrenheit (°F)</option>        
+                        <option value="kelvin">Kelvin (K)</option>        
+                    </select>        
+                </div>        
+                <div style="text-align:center; margin:10px; color:#1967d2;">⬇</div>        
+                <div class="converter-row">        
+                    <select id="tempTo" class="converter-select">        
+                        <option value="fahrenheit">Fahrenheit (°F)</option>        
+                        <option value="celsius">Celsius (°C)</option>        
+                        <option value="kelvin">Kelvin (K)</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertTemperature()">Convert Temperature</button>        
+                <div class="converter-result" id="tempResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <!-- 5. EXTRA TOOLS -->        
+        <div id="percentage" class="section-view">        
+            <div class="converter-box">        
+                <h4>Calculate Percentage (%)</h4>        
+                <div class="converter-row">        
+                    <input type="number" id="percPercent" class="converter-input" placeholder="20">        
+                    <span style="align-self:center">% of</span>        
+                    <input type="number" id="percValue" class="converter-input" placeholder="1000">        
+                </div>        
+                <button class="converter-btn" onclick="calcPercentageValue()">Calculate</button>        
+                <div class="converter-result" id="percValueResult">Result</div>        
+        
+                <hr style="margin:20px 0; border-top:1px dashed #ddd;">        
+                <h4>Find Percentage</h4>        
+                <div class="converter-row">        
+                    <input type="number" id="percPart" class="converter-input" placeholder="50">        
+                    <span style="align-self:center">is what % of</span>        
+                    <input type="number" id="percTotal" class="converter-input" placeholder="200">        
+                </div>        
+                <button class="converter-btn" onclick="calcWhatPercent()">Calculate</button>        
+                <div class="converter-result" id="percWhatResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <div id="time" class="section-view">        
+            <div class="converter-box">        
+                <h3>Time Unit Converter</h3>        
+                <div class="converter-row">        
+                    <input type="number" id="timeValue" class="converter-input" placeholder="Enter value">        
+                    <select id="timeUnit" class="converter-select">        
+                        <option value="milliseconds">Milliseconds</option>        
+                        <option value="seconds" selected>Seconds</option>        
+                        <option value="minutes">Minutes</option>        
+                        <option value="hours">Hours</option>        
+                        <option value="days">Days</option>        
+                        <option value="weeks">Weeks</option>        
+                        <option value="months">Months (30 days)</option>        
+                        <option value="years">Years (365 days)</option>        
+                    </select>        
+                </div>        
+                <button class="converter-btn" onclick="convertTime()">Convert & Show All</button>        
+                <div class="converter-result" id="timeResult" style="text-align: left;">Result will appear here</div>        
+        
+                <hr style="margin:20px 0; border-top:1px dashed #ddd;">        
+                <h4>Time Operations</h4>        
+                <div class="converter-row">        
+                    <input type="text" id="time1" class="converter-input" placeholder="10:00:00 (HH:MM:SS)">        
+                    <select id="timeOperation" class="converter-select">        
+                        <option value="add">Add (+)</option>        
+                        <option value="subtract">Subtract (-)</option>        
+                    </select>        
+                    <input type="text" id="time2" class="converter-input" placeholder="01:30:00 (HH:MM:SS)">        
+                </div>        
+                <button class="converter-btn" onclick="calculateTime()">Calculate</button>        
+                <div class="converter-result" id="timeOpResult">Result</div>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ SETTINGS PAGE (NEW) -->        
+        <div id="settings" class="section-view">        
+            <div class="converter-box">        
+                <h3>Settings</h3>        
+                <p style="margin-top:10px; line-height:1.7; color:#444;">        
+                    Manage app information and important policy pages here.        
+                </p>        
+        
+                <div style="margin-top:15px; line-height:1.9; color:#444;">        
+                    ✅ Premium Unlock: Rewarded Ad unlocks Pro tools for 30 minutes.<br>        
+                    ✅ Offline Mode: Some tools work offline (standard calculators).<br>        
+                    ✅ Live Data: Currency & Crypto need internet connection.<br>        
+                    ✅ Safe Use: This app does not provide financial advice.        
+                </div>        
+        
+                <hr style="margin:20px 0; border-top:1px dashed #ddd;">        
+        
+                <p style="font-size:0.9rem; color:#555; line-height:1.7;">        
+                    <strong>Quick Links:</strong><br>        
+                    • About Us<br>        
+                    • Privacy Policy<br>        
+                    • Terms & Conditions<br>        
+                    • Disclaimer<br>        
+                    • Contact Us<br>        
+                    • Data Safety        
+                </p>        
+        
+                <!-- ✅ SHARE APP BUTTON (ADDED - 0% UI CHANGE) -->        
+                <hr style="margin:20px 0; border-top:1px dashed #ddd;">        
+        
+                <button class="converter-btn" onclick="shareApp()">        
+                    📤 Share UltraCalc App        
+                </button>        
+        
+                <p style="text-align:center; font-size:0.85rem; margin-top:10px; color:#777;">        
+                    Share this app with your friends and family.        
+                </p>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ ABOUT US (SEO + Professional) -->        
+        <div id="about" class="section-view">        
+            <div class="converter-box">        
+                <h3>About UltraCalc</h3>        
+                <p style="margin-top:10px; line-height:1.7; color:#444;">        
+                    UltraCalc is an ultra-fast all-in-one smart calculator created to simplify daily calculations and conversions in one clean interface.        
+                    It combines standard math operations, percentage tools, time utilities, unit conversion, and real-time currency and crypto market insights.        
+                </p>        
+                <p style="margin-top:15px; line-height:1.7; color:#444;">        
+                    ✅ Clean & modern interface<br>        
+                    ✅ Works smoothly on mobile & desktop<br>        
+                    ✅ Live currency exchange rates (online)<br>        
+                    ✅ Live crypto prices from trusted sources (online)<br>        
+                    ✅ Lightweight, fast and privacy-focused        
+                </p>        
+                <p style="margin-top:15px; line-height:1.7; color:#444;">        
+                    Our goal is to provide maximum utility with minimal complexity, so users can calculate smarter, quicker and safer.        
+                </p>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ PRIVACY POLICY (ULTRA PROFESSIONAL + SEO) -->        
+        <div id="privacy" class="section-view">        
+            <div class="converter-box">        
+                <h3>Privacy Policy</h3>        
+                <p style="margin-top:10px; line-height:1.7; color:#444;">        
+                    UltraCalc respects your privacy. This app is designed to work without requiring user registration.        
+                    We do not request your name, phone number, address, or any personally identifiable information for basic app usage.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>1) Information We Collect</strong><br>        
+                    UltraCalc does not collect personal identity data such as your name, email address, phone number, or location for app functionality.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>2) Calculator & Offline Tools</strong><br>        
+                    Standard calculations and unit conversions are processed locally on your device.        
+                    Your calculation inputs are not uploaded to our servers.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>3) Live Currency & Crypto Features</strong><br>        
+                    To provide live market updates, UltraCalc may fetch exchange rate and crypto price data through third-party APIs.        
+                    These APIs may log technical network information according to their own privacy terms.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>4) Ads & Rewarded Premium</strong><br>        
+                    If advertisements are enabled, third-party ad networks may collect limited device identifiers for ad delivery, analytics, and fraud prevention.        
+                    UltraCalc does not control third-party tracking policies.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>5) Data Security</strong><br>        
+                    We apply best efforts to maintain a safe and stable user experience.        
+                    However, no internet-based system can guarantee 100% security.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>6) Children's Privacy</strong><br>        
+                    UltraCalc is not designed to collect personal data from children.        
+                    We do not knowingly collect information from minors.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>7) Policy Updates</strong><br>        
+                    We may update this Privacy Policy to improve clarity, compliance, user trust, and overall safety.        
+                </p>        
+        
+                <p style="margin-top:15px; font-size:0.85rem; color:#777;">        
+                    Last Updated: 2026        
+                </p>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ TERMS & CONDITIONS -->        
+        <div id="terms" class="section-view">        
+            <div class="converter-box">        
+                <h3>Terms & Conditions</h3>        
+        
+                <p style="margin-top:10px; line-height:1.7; color:#444;">        
+                    By using UltraCalc, you agree to these Terms & Conditions.        
+                    Please read them carefully to understand your rights, responsibilities, and limitations of usage.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>1) App Usage</strong><br>        
+                    UltraCalc is provided as a general-purpose calculator and conversion tool.        
+                    You agree to use the app legally and responsibly.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>2) No Professional Advice</strong><br>        
+                    Any finance-related results (EMI/SIP/FD calculations) are estimations and do not represent financial advice.        
+                    Please consult a qualified professional before making financial decisions.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>3) Rewarded Premium Access</strong><br>        
+                    Watching a rewarded advertisement may unlock premium tools for a limited time (example: 30 minutes).        
+                    This depends on ad network availability and internet connectivity.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>4) Live Market Availability</strong><br>        
+                    Live currency and crypto updates require a stable internet connection.        
+                    We do not guarantee uninterrupted availability of third-party data services.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>5) Limitation of Liability</strong><br>        
+                    UltraCalc is provided “as is”. We are not responsible for financial losses, missed opportunities, or damages        
+                    resulting from reliance on calculations or live market data.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>6) Updates & Changes</strong><br>        
+                    We may update app features or policies for improvement, stability, compliance, and better user experience.        
+                </p>        
+        
+                <p style="margin-top:15px; font-size:0.85rem; color:#777;">        
+                    Last Updated: 2026        
+                </p>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ DISCLAIMER -->        
+        <div id="disclaimer" class="section-view">        
+            <div class="converter-box">        
+                <h3>Disclaimer</h3>        
+        
+                <p style="margin-top:10px; line-height:1.7; color:#444;">        
+                    UltraCalc is a utility application developed to provide fast calculations and conversions.        
+                    Results are displayed for informational and convenience purposes only.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>Financial Disclaimer</strong><br>        
+                    EMI / SIP / FD calculations are approximate. Actual values may vary due to different bank rules, compounding, fees, and market changes.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>Currency & Crypto Disclaimer</strong><br>        
+                    Live currency exchange rates and crypto market prices may change rapidly and may occasionally be delayed or unavailable        
+                    due to third-party API limitations or network issues.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>Ads Disclaimer</strong><br>        
+                    Ads may be shown via third-party networks. We do not control third-party advertisement content.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    By using UltraCalc, you agree that you are responsible for verifying outputs before taking real-world decisions.        
+                </p>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ CONTACT US -->        
+        <div id="contact" class="section-view">        
+            <div class="converter-box">        
+                <h3>Contact Us</h3>        
+        
+                <p style="margin-top:10px; line-height:1.7; color:#444;">        
+                    We value user feedback and continuous improvements.        
+                    If you have suggestions, bug reports, or feature requests, please contact us using the details below.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.9; color:#444;">        
+                    <strong>Email:</strong> support@ultracalc.app<br>        
+                    <strong>Support Response Time:</strong> 24–72 hours<br>        
+                    <strong>Business Hours:</strong> Mon–Sat (9:00 AM – 6:00 PM)        
+                </p>        
+        
+                <p style="margin-top:12px; font-size:0.9rem; color:#777; line-height:1.7;">        
+                    For faster support, please include your device model, Android version, and screenshots if possible.        
+                </p>        
+            </div>        
+        </div>        
+        
+        <!-- ✅ DATA SAFETY -->        
+        <div id="datasafety" class="section-view">        
+            <div class="converter-box">        
+                <h3>Data Safety</h3>        
+        
+                <p style="margin-top:10px; line-height:1.7; color:#444;">        
+                    UltraCalc follows privacy-first design principles.        
+                    The app is made to function without account creation and without collecting personal identity data.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>Data Collected by UltraCalc:</strong><br>        
+                    ✅ None (No login, no registration, no name/email collection)        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>Data Shared:</strong><br>        
+                    If ads are enabled, third-party ad partners may collect limited device information for ad delivery, analytics, and fraud prevention        
+                    as per their own policies.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>Permissions</strong><br>        
+                    UltraCalc does not require sensitive permissions for core tools.        
+                    Live market features require internet access.        
+                </p>        
+        
+                <p style="margin-top:12px; line-height:1.7; color:#444;">        
+                    <strong>Account Deletion</strong><br>        
+                    UltraCalc does not create user accounts, so there is no account data to delete.        
+                </p>        
+            </div>        
+        </div>        
+        
+    </div>        
+        
+    <!-- ✅ AD REWARD MODAL (UPDATED TEXT) -->        
+    <div id="limitModal" class="modal-overlay">        
+        <div class="modal-box">        
+            <span class="modal-icon">🔒</span>        
+            <div class="modal-title" id="modalTitle">Limit Reached!</div>        
+            <p class="modal-desc" id="modalDesc">        
+                You have used your 5 free calculations.<br>        
+                <strong>Watch a short Ad to get 30 Minutes Unlimited Access!</strong>        
+            </p>        
+            <button class="modal-btn" onclick="showRewardAd()">        
+                🎥 Watch Full Ad & Unlock 30min        
+            </button>        
+            <div style="margin-top:15px; font-size:0.8rem; color:#999; cursor:pointer;" onclick="closeModal()">Close</div>        
+        </div>        
+    </div>        
+        
+    <!-- JAVASCRIPT -->        
+    <script>        
+        // --- USAGE LIMIT & AD SYSTEM ---        
+        const FREE_USAGE_LIMIT = 5;        
+        let usageCount = 0;        
+        let premiumEndTime = 0; // Timestamp when premium ends        
+        let updateTimerInterval;        
+        
+        // ✅ REAL-TIME LIVE UPDATE CONFIG (NEW - 0% UI CHANGE)        
+        const LIVE_FIAT_REFRESH_MS = 60 * 1000;   // 1 minute (safe + stable)        
+        const LIVE_CRYPTO_REFRESH_MS = 45 * 1000; // 45 sec        
+        const CHANGE_ALERT_THRESHOLD_FIAT = 0.001; // small change detect        
+        const CHANGE_ALERT_THRESHOLD_CRYPTO = 0.15; // $ change detect for crypto UI highlight        
+        let liveFiatInterval = null;        
+        let liveCryptoInterval = null;        
+        
+        // For detecting up/down changes (NEW)        
+        let lastFiatRatesSnapshot = {};        
+        let lastCryptoPricesSnapshot = {};        
+        
+        // Load state from local storage (optional persistence)        
+        if(localStorage.getItem('premiumEndTime')) {        
+            premiumEndTime = parseInt(localStorage.getItem('premiumEndTime'));        
+        }        
+        
+        // --- HISTORY SYSTEM (NEW) ---        
+        let appHistory = JSON.parse(localStorage.getItem('calcHistory')) || [];        
+        
+        function addToHistory(label, result) {        
+            const entry = {        
+                id: Date.now(),        
+                label: label,        
+                result: result,        
+                date: new Date().toLocaleString()        
+            };        
+            appHistory.unshift(entry); // Add to top        
+            if(appHistory.length > 50) appHistory.pop(); // Keep last 50        
+            localStorage.setItem('calcHistory', JSON.stringify(appHistory));        
+            renderHistory();        
+        }        
+        
+        function renderHistory() {        
+            const container = document.getElementById('historyList');        
+            if(!container) return;        
+            container.innerHTML = '';        
+                    
+            if(appHistory.length === 0) {        
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No history yet.</div>';        
+                return;        
+            }        
+        
+            appHistory.forEach(item => {        
+                const div = document.createElement('div');        
+                div.className = 'rate-item';        
+                div.innerHTML = `        
+                    <div class="rate-details" style="width:100%;">        
+                        <span class="rate-code" style="font-size:0.75rem;">${item.date}</span>        
+                        <span class="rate-country" style="margin-top:2px;">${item.label}</span>        
+                        <span class="rate-value" style="margin-top:5px; font-size:1.2rem;">= ${item.result}</span>        
+                    </div>        
+                `;        
+                container.appendChild(div);        
+            });        
+        }        
+        
+        function clearHistoryData() {        
+            if(confirm("Are you sure you want to delete all history?")) {        
+                appHistory = [];        
+                localStorage.setItem('calcHistory', JSON.stringify(appHistory));        
+                renderHistory();        
+            }        
+        }        
+        
+        function shareHistoryText() {        
+            if(appHistory.length === 0) {        
+                alert("No history to share!");        
+                return;        
+            }        
+            let text = "📜 UltraCalc History:\n\n";        
+            appHistory.forEach(h => {        
+                text += `${h.label} = ${h.result}\n`;        
+            });        
+            text += "\nDownload App: https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME";        
+        
+            if (navigator.share) {        
+                navigator.share({ title: 'UltraCalc History', text: text }).catch(console.log);        
+            } else {        
+                prompt("Copy history:", text);        
+            }        
+        }        
+        
+        function isPremiumActive() {        
+            return Date.now() < premiumEndTime;        
+        }        
+        
+        // Modified checkLimit for Standard Features        
+        function checkLimit() {        
+            if (isPremiumActive()) return true;        
+        
+            if (usageCount < FREE_USAGE_LIMIT) {        
+                usageCount++;        
+                updateBadge();        
+                return true;        
+            }        
+        
+            openAdModal("Limit Reached!", "You have used your 5 free calculations. Watch a Full Ad to unlock everything for 30 mins.");        
+            return false;        
+        }        
+        
+        // New check for Locked PRO features        
+        function checkLockedFeature() {        
+            if (isPremiumActive()) return true;        
+        
+            openAdModal("Feature Locked 🔒", "This is a Premium Tool. Watch a Full Ad to unlock this feature and Unlimited usage for 30 minutes!");        
+            return false;        
+        }        
+        
+        function openAdModal(title, desc) {        
+            document.getElementById('modalTitle').innerText = title;        
+            document.getElementById('modalDesc').innerText = desc;        
+            document.getElementById('limitModal').style.display = 'flex';        
+        }        
+        
+        function updateBadge() {        
+            const badge = document.getElementById('calcLimitBadge');        
+            if (isPremiumActive()) {        
+                badge.style.background = '#28a745'; // Green        
+                badge.style.color = '#fff';        
+                badge.textContent = "UNLIMITED ⚡";        
+            } else {        
+                badge.style.background = '#ffeeba';        
+                badge.style.color = '#856404';        
+                badge.textContent = `${usageCount}/${FREE_USAGE_LIMIT}`;        
+            }        
+        }        
+        
+        function showRewardAd() {        
+            // This function simulates the Android Interface call        
+            // In a real Android WebView, you would inject 'window.AndroidReward'        
+            if (window.AndroidReward) {        
+                window.AndroidReward.showAd(); // Call Android function        
+            } else {        
+                // FALLBACK FOR BROWSER TESTING        
+                const btn = document.querySelector('.modal-btn');        
+                const originalText = btn.innerHTML;        
+                btn.innerHTML = "⏳ Playing Full Ad...";        
+        
+                setTimeout(() => {        
+                    alert("✅ Ad Completed! Premium Unlocked for 30 Minutes.");        
+                    unlockPremiumReward(); // Call after ad success        
+                    btn.innerHTML = originalText;        
+                }, 3000);        
+            }        
+        }        
+        
+        // Call this function from Android when Ad is finished        
+        function unlockPremiumReward() {        
+            const now = Date.now();        
+            premiumEndTime = now + (30 * 60 * 1000); // 30 Minutes from now        
+            localStorage.setItem('premiumEndTime', premiumEndTime);        
+        
+            usageCount = 0; // Reset counter (optional)        
+            closeModal();        
+            startPremiumTimer();        
+            updateBadge();        
+        
+            // Unlock visual indication        
+            document.querySelectorAll('.locked-feature').forEach(el => {        
+                el.style.opacity = "1";        
+                el.querySelector('.lock-icon').innerText = "";        
+            });        
+        }        
+        
+        function startPremiumTimer() {        
+            const statusBox = document.getElementById('premiumStatus');        
+            const timerSpan = document.getElementById('premiumTimer');        
+        
+            if (updateTimerInterval) clearInterval(updateTimerInterval);        
+        
+            updateTimerInterval = setInterval(() => {        
+                const timeLeft = premiumEndTime - Date.now();        
+                if (timeLeft <= 0) {        
+                    clearInterval(updateTimerInterval);        
+                    statusBox.style.display = 'none';        
+                    updateBadge(); // Revert to limited        
+                    // Lock again        
+                    document.querySelectorAll('.locked-feature').forEach(el => {        
+                        el.style.opacity = "0.8";        
+                        el.querySelector('.lock-icon').innerText = "🔒";        
+                    });        
+                    return;        
+                }        
+        
+                statusBox.style.display = 'block';        
+                const m = Math.floor(timeLeft / 60000);        
+                const s = Math.floor((timeLeft % 60000) / 1000);        
+                timerSpan.textContent = `${m}:${s < 10 ? '0'+s : s} left`;        
+            }, 1000);        
+        }        
+        
+        function closeModal() {        
+            document.getElementById('limitModal').style.display = 'none';        
+        }        
+        
+        // ✅ SHARE APP FUNCTION        
+        function shareApp() {        
+            const appName = "UltraCalc - All in One Smart Calculator";        
+            const shareText = "Download UltraCalc App ✅ Calculator + Currency + Crypto + Unit Converter + Percentage + Time Tools";        
+            const appLink = "https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME";        
+        
+            if (navigator.share) {        
+                navigator.share({        
+                    title: appName,        
+                    text: shareText,        
+                    url: appLink        
+                }).catch((err) => {        
+                    console.log("Share cancelled or failed:", err);        
+                });        
+            } else {        
+                if (navigator.clipboard && window.isSecureContext) {        
+                    navigator.clipboard.writeText(appLink).then(() => {        
+                        alert("✅ App Link Copied! Now paste & share anywhere:\n\n" + appLink);        
+                    }).catch(() => {        
+                        prompt("Copy this link and share:", appLink);        
+                    });        
+                } else {        
+                    prompt("Copy this link and share:", appLink);        
+                }        
+            }        
+        }        
+        
+        // Start timer on load if still active        
+        if (isPremiumActive()) {        
+            startPremiumTimer();        
+            updateBadge();        
+            document.querySelectorAll('.locked-feature').forEach(el => {        
+                el.style.opacity = "1";        
+                el.querySelector('.lock-icon').innerText = "";        
+            });        
+        }        
+        
+        // --- DEFAULT DATA ---        
+        let rawCurrencyData = [        
+            { code: 'AED', name: 'UAE Dirham', country: 'United Arab Emirates', flag: '🇦🇪', rate: 3.67 },        
+            { code: 'AFN', name: 'Afghani', country: 'Afghanistan', flag: '🇦🇫', rate: 88.5 },        
+            { code: 'ALL', name: 'Lek', country: 'Albania', flag: '🇦🇱', rate: 105.2 },        
+            { code: 'AMD', name: 'Dram', country: 'Armenia', flag: '🇦🇲', rate: 405.0 },        
+            { code: 'ANG', name: 'Guilder', country: 'Curacao', flag: '🇨🇼', rate: 1.79 },        
+            { code: 'AOA', name: 'Kwanza', country: 'Angola', flag: '🇦🇴', rate: 825.0 },        
+            { code: 'ARS', name: 'Peso', country: 'Argentina', flag: '🇦🇷', rate: 350.0 },        
+            { code: 'AUD', name: 'Dollar', country: 'Australia', flag: '🇦🇺', rate: 1.55 },        
+            { code: 'AWG', name: 'Florin', country: 'Aruba', flag: '🇦🇼', rate: 1.79 },        
+            { code: 'AZN', name: 'Manat', country: 'Azerbaijan', flag: '🇦🇿', rate: 1.70 },        
+            { code: 'BAM', name: 'Mark', country: 'Bosnia', flag: '🇧🇦', rate: 1.83 },        
+            { code: 'BBD', name: 'Dollar', country: 'Barbados', flag: '🇧🇧', rate: 2.00 },        
+            { code: 'BDT', name: 'Taka', country: 'Bangladesh', flag: '🇧🇩', rate: 110.5 },        
+            { code: 'BGN', name: 'Lev', country: 'Bulgaria', flag: '🇧🇬', rate: 1.83 },        
+            { code: 'BHD', name: 'Dinar', country: 'Bahrain', flag: '🇧🇭', rate: 0.376 },        
+            { code: 'BIF', name: 'Franc', country: 'Burundi', flag: '🇧🇮', rate: 2835.0 },        
+            { code: 'BMD', name: 'Dollar', country: 'Bermuda', flag: '🇧🇲', rate: 1.0 },        
+            { code: 'BND', name: 'Dollar', country: 'Brunei', flag: '🇧🇳', rate: 1.37 },        
+            { code: 'BOB', name: 'Boliviano', country: 'Bolivia', flag: '🇧🇴', rate: 6.91 },        
+            { code: 'BRL', name: 'Real', country: 'Brazil', flag: '🇧🇷', rate: 4.95 },        
+            { code: 'BSD', name: 'Dollar', country: 'Bahamas', flag: '🇧🇸', rate: 1.0 },        
+            { code: 'BTN', name: 'Ngultrum', country: 'Bhutan', flag: '🇧🇹', rate: 83.2 },        
+            { code: 'BWP', name: 'Pula', country: 'Botswana', flag: '🇧🇼', rate: 13.7 },        
+            { code: 'BYN', name: 'Ruble', country: 'Belarus', flag: '🇧🇾', rate: 2.52 },        
+            { code: 'BZD', name: 'Dollar', country: 'Belize', flag: '🇧🇿', rate: 2.01 },        
+            { code: 'CAD', name: 'Dollar', country: 'Canada', flag: '🇨🇦', rate: 1.36 },        
+            { code: 'CDF', name: 'Franc', country: 'DR Congo', flag: '🇨🇩', rate: 2450.0 },        
+            { code: 'CHF', name: 'Franc', country: 'Switzerland', flag: '🇨🇭', rate: 0.90 },        
+            { code: 'CLP', name: 'Peso', country: 'Chile', flag: '🇨🇱', rate: 915.0 },        
+            { code: 'CNY', name: 'Yuan', country: 'China', flag: '🇨🇳', rate: 7.31 },        
+            { code: 'COP', name: 'Peso', country: 'Colombia', flag: '🇨🇴', rate: 4200.0 },        
+            { code: 'CRC', name: 'Colón', country: 'Costa Rica', flag: '🇨🇷', rate: 535.0 },        
+            { code: 'CUP', name: 'Peso', country: 'Cuba', flag: '🇨🇺', rate: 24.0 },        
+            { code: 'CVE', name: 'Escudo', country: 'Cape Verde', flag: '🇨🇻', rate: 103.0 },        
+            { code: 'CZK', name: 'Koruna', country: 'Czechia', flag: '🇨🇿', rate: 23.0 },        
+            { code: 'DJF', name: 'Franc', country: 'Djibouti', flag: '🇩🇯', rate: 177.7 },        
+            { code: 'DKK', name: 'Krone', country: 'Denmark', flag: '🇩🇰', rate: 7.05 },        
+            { code: 'DOP', name: 'Peso', country: 'Dominican Rep.', flag: '🇩🇴', rate: 56.8 },        
+            { code: 'DZD', name: 'Dinar', country: 'Algeria', flag: '🇩🇿', rate: 137.0 },        
+            { code: 'EGP', name: 'Pound', country: 'Egypt', flag: '🇪🇬', rate: 30.9 },        
+            { code: 'ERN', name: 'Nakfa', country: 'Eritrea', flag: '🇪🇷', rate: 15.0 },        
+            { code: 'ETB', name: 'Birr', country: 'Ethiopia', flag: '🇪🇹', rate: 55.5 },        
+            { code: 'EUR', name: 'Euro', country: 'European Union', flag: '🇪🇺', rate: 0.94 },        
+            { code: 'FJD', name: 'Dollar', country: 'Fiji', flag: '🇫🇯', rate: 2.27 },        
+            { code: 'FKP', name: 'Pound', country: 'Falkland Is.', flag: '🇫🇰', rate: 0.82 },        
+            { code: 'GBP', name: 'Pound', country: 'United Kingdom', flag: '🇬🇧', rate: 0.82 },        
+            { code: 'GEL', name: 'Lari', country: 'Georgia', flag: '🇬🇪', rate: 2.68 },        
+            { code: 'GHS', name: 'Cedi', country: 'Ghana', flag: '🇬🇭', rate: 11.5 },        
+            { code: 'GIP', name: 'Pound', country: 'Gibraltar', flag: '🇬🇮', rate: 0.82 },        
+            { code: 'GMD', name: 'Dalasi', country: 'Gambia', flag: '🇬🇲', rate: 64.0 },        
+            { code: 'GNF', name: 'Franc', country: 'Guinea', flag: '🇬🇳', rate: 8580.0 },        
+            { code: 'GTQ', name: 'Quetzal', country: 'Guatemala', flag: '🇬🇹', rate: 7.84 },        
+            { code: 'GYD', name: 'Dollar', country: 'Guyana', flag: '🇬🇾', rate: 210.0 },        
+            { code: 'HKD', name: 'Dollar', country: 'Hong Kong', flag: '🇭🇰', rate: 7.82 },        
+            { code: 'HNL', name: 'Lempira', country: 'Honduras', flag: '🇭🇳', rate: 24.7 },        
+            { code: 'HRK', name: 'Kuna', country: 'Croatia', flag: '🇭🇷', rate: 7.08 },        
+            { code: 'HTG', name: 'Gourde', country: 'Haiti', flag: '🇭🇹', rate: 134.0 },        
+            { code: 'HUF', name: 'Forint', country: 'Hungary', flag: '🇭🇺', rate: 365.0 },        
+            { code: 'IDR', name: 'Rupiah', country: 'Indonesia', flag: '🇮🇩', rate: 15700.0 },        
+            { code: 'ILS', name: 'Shekel', country: 'Israel', flag: '🇮🇱', rate: 3.95 },        
+            { code: 'INR', name: 'Rupee', country: 'India', flag: '🇮🇳', rate: 83.2 },        
+            { code: 'IQD', name: 'Dinar', country: 'Iraq', flag: '🇮🇶', rate: 1310.0 },        
+            { code: 'IRR', name: 'Rial', country: 'Iran', flag: '🇮🇷', rate: 42000.0 },        
+            { code: 'ISK', name: 'Króna', country: 'Iceland', flag: '🇮🇸', rate: 138.0 },        
+            { code: 'JMD', name: 'Dollar', country: 'Jamaica', flag: '🇯🇲', rate: 155.0 },        
+            { code: 'JOD', name: 'Dinar', country: 'Jordan', flag: '🇯🇴', rate: 0.709 },        
+            { code: 'JPY', name: 'Yen', country: 'Japan', flag: '🇯🇵', rate: 149.5 },        
+            { code: 'KES', name: 'Shilling', country: 'Kenya', flag: '🇰🇪', rate: 149.0 },        
+            { code: 'KGS', name: 'Som', country: 'Kyrgyzstan', flag: '🇰🇬', rate: 89.0 },        
+            { code: 'KHR', name: 'Riel', country: 'Cambodia', flag: '🇰🇭', rate: 4120.0 },        
+            { code: 'KMF', name: 'Franc', country: 'Comoros', flag: '🇰🇲', rate: 462.0 },        
+            { code: 'KRW', name: 'Won', country: 'South Korea', flag: '🇰🇷', rate: 1350.0 },        
+            { code: 'KWD', name: 'Dinar', country: 'Kuwait', flag: '🇰🇼', rate: 0.309 },        
+            { code: 'KYD', name: 'Dollar', country: 'Cayman Is.', flag: '🇰🇾', rate: 0.83 },        
+            { code: 'KZT', name: 'Tenge', country: 'Kazakhstan', flag: '🇰🇿', rate: 477.0 },        
+            { code: 'LAK', name: 'Kip', country: 'Laos', flag: '🇱🇦', rate: 20500.0 },        
+            { code: 'LBP', name: 'Pound', country: 'Lebanon', flag: '🇱🇧', rate: 15000.0 },        
+            { code: 'LKR', name: 'Rupee', country: 'Sri Lanka', flag: '🇱🇰', rate: 324.0 },        
+            { code: 'LRD', name: 'Dollar', country: 'Liberia', flag: '🇱🇷', rate: 188.0 },        
+            { code: 'LSL', name: 'Loti', country: 'Lesotho', flag: '🇱🇸', rate: 19.0 },        
+            { code: 'LYD', name: 'Dinar', country: 'Libya', flag: '🇱🇾', rate: 4.85 },        
+            { code: 'MAD', name: 'Dirham', country: 'Morocco', flag: '🇲🇦', rate: 10.2 },        
+            { code: 'MDL', name: 'Leu', country: 'Moldova', flag: '🇲🇩', rate: 18.2 },        
+            { code: 'MGA', name: 'Ariary', country: 'Madagascar', flag: '🇲🇬', rate: 4500.0 },        
+            { code: 'MKD', name: 'Denar', country: 'Macedonia', flag: '🇲🇰', rate: 57.8 },        
+            { code: 'MMK', name: 'Kyat', country: 'Myanmar', flag: '🇲🇲', rate: 2100.0 },        
+            { code: 'MNT', name: 'Tugrik', country: 'Mongolia', flag: '🇲🇳', rate: 3450.0 },        
+            { code: 'MOP', name: 'Pataca', country: 'Macau', flag: '🇲🇴', rate: 8.06 },        
+            { code: 'MRU', name: 'Ouguiya', country: 'Mauritania', flag: '🇲🇷', rate: 38.0 },        
+            { code: 'MUR', name: 'Rupee', country: 'Mauritius', flag: '🇲🇺', rate: 44.5 },        
+            { code: 'MVR', name: 'Rufiyaa', country: 'Maldives', flag: '🇲🇻', rate: 15.4 },        
+            { code: 'MWK', name: 'Kwacha', country: 'Malawi', flag: '🇲🇼', rate: 1120.0 },        
+            { code: 'MXN', name: 'Peso', country: 'Mexico', flag: '🇲🇽', rate: 18.1 },        
+            { code: 'MYR', name: 'Ringgit', country: 'Malaysia', flag: '🇲🇾', rate: 4.73 },        
+            { code: 'MZN', name: 'Metical', country: 'Mozambique', flag: '🇲🇿', rate: 63.8 },        
+            { code: 'NAD', name: 'Dollar', country: 'Namibia', flag: '🇳🇦', rate: 19.0 },        
+            { code: 'NGN', name: 'Naira', country: 'Nigeria', flag: '🇳🇬', rate: 775.0 },        
+            { code: 'NIO', name: 'Córdoba', country: 'Nicaragua', flag: '🇳🇮', rate: 36.6 },        
+            { code: 'NOK', name: 'Krone', country: 'Norway', flag: '🇳🇴', rate: 11.0 },        
+            { code: 'NPR', name: 'Rupee', country: 'Nepal', flag: '🇳🇵', rate: 133.0 },        
+            { code: 'NZD', name: 'Dollar', country: 'New Zealand', flag: '🇳🇿', rate: 1.70 },        
+            { code: 'OMR', name: 'Rial', country: 'Oman', flag: '🇴🇲', rate: 0.385 },        
+            { code: 'PAB', name: 'Balboa', country: 'Panama', flag: '🇵🇦', rate: 1.0 },        
+            { code: 'PEN', name: 'Sol', country: 'Peru', flag: '🇵🇪', rate: 3.85 },        
+            { code: 'PGK', name: 'Kina', country: 'Papua New Guinea', flag: '🇵🇬', rate: 3.65 },        
+            { code: 'PHP', name: 'Peso', country: 'Philippines', flag: '🇵🇭', rate: 56.8 },        
+            { code: 'PKR', name: 'Rupee', country: 'Pakistan', flag: '🇵🇰', rate: 278.0 },        
+            { code: 'PLN', name: 'Zloty', country: 'Poland', flag: '🇵🇱', rate: 4.25 },        
+            { code: 'PYG', name: 'Guarani', country: 'Paraguay', flag: '🇵🇾', rate: 7350.0 },        
+            { code: 'QAR', name: 'Rial', country: 'Qatar', flag: '🇶🇦', rate: 3.64 },        
+            { code: 'RON', name: 'Leu', country: 'Romania', flag: '🇷🇴', rate: 4.67 },        
+            { code: 'RSD', name: 'Dinar', country: 'Serbia', flag: '🇷🇸', rate: 110.0 },        
+            { code: 'RUB', name: 'Ruble', country: 'Russia', flag: '🇷🇺', rate: 97.5 },        
+            { code: 'RWF', name: 'Franc', country: 'Rwanda', flag: '🇷🇼', rate: 1220.0 },        
+            { code: 'SAR', name: 'Riyal', country: 'Saudi Arabia', flag: '🇸🇦', rate: 3.75 },        
+            { code: 'SBD', name: 'Dollar', country: 'Solomon Is.', flag: '🇸🇧', rate: 8.50 },        
+            { code: 'SCR', name: 'Rupee', country: 'Seychelles', flag: '🇸🇨', rate: 13.2 },        
+            { code: 'SDG', name: 'Pound', country: 'Sudan', flag: '🇸🇩', rate: 600.0 },        
+            { code: 'SEK', name: 'Krona', country: 'Sweden', flag: '🇸🇪', rate: 11.0 },        
+            { code: 'SGD', name: 'Dollar', country: 'Singapore', flag: '🇸🇬', rate: 1.37 },        
+            { code: 'SHP', name: 'Pound', country: 'Saint Helena', flag: '🇸🇭', rate: 0.82 },        
+            { code: 'SLL', name: 'Leone', country: 'Sierra Leone', flag: '🇸🇱', rate: 22000.0 },        
+            { code: 'SOS', name: 'Shilling', country: 'Somalia', flag: '🇸🇴', rate: 570.0 },        
+            { code: 'SRD', name: 'Dollar', country: 'Suriname', flag: '🇸🇷', rate: 38.0 },        
+            { code: 'SSP', name: 'Pound', country: 'South Sudan', flag: '🇸🇸', rate: 1000.0 },        
+            { code: 'STN', name: 'Dobra', country: 'São Tomé', flag: '🇸🇹', rate: 23.0 },        
+            { code: 'SYP', name: 'Pound', country: 'Syria', flag: '🇸🇾', rate: 2512.0 },        
+            { code: 'SZL', name: 'Lilangeni', country: 'Eswatini', flag: '🇸🇿', rate: 19.0 },        
+            { code: 'THB', name: 'Baht', country: 'Thailand', flag: '🇹🇭', rate: 36.5 },        
+            { code: 'TJS', name: 'Somoni', country: 'Tajikistan', flag: '🇹🇯', rate: 10.9 },        
+            { code: 'TMT', name: 'Manat', country: 'Turkmenistan', flag: '🇹🇲', rate: 3.50 },        
+            { code: 'TND', name: 'Dinar', country: 'Tunisia', flag: '🇹🇳', rate: 3.18 },        
+            { code: 'TOP', name: 'Paʻanga', country: 'Tonga', flag: '🇹🇴', rate: 2.37 },        
+            { code: 'TRY', name: 'Lira', country: 'Turkey', flag: '🇹🇷', rate: 27.8 },        
+            { code: 'TTD', name: 'Dollar', country: 'Trinidad & Tobago', flag: '🇹🇹', rate: 6.78 },        
+            { code: 'TWD', name: 'Dollar', country: 'Taiwan', flag: '🇹🇼', rate: 32.2 },        
+            { code: 'TZS', name: 'Shilling', country: 'Tanzania', flag: '🇹🇿', rate: 2500.0 },        
+            { code: 'UAH', name: 'Hryvnia', country: 'Ukraine', flag: '🇺🇦', rate: 36.6 },        
+            { code: 'UGX', name: 'Shilling', country: 'Uganda', flag: '🇺🇬', rate: 3750.0 },        
+            { code: 'USD', name: 'US Dollar', country: 'United States', flag: '🇺🇸', rate: 1.0 },        
+            { code: 'UYU', name: 'Peso', country: 'Uruguay', flag: '🇺🇾', rate: 39.8 },        
+            { code: 'UZS', name: 'Som', country: 'Uzbekistan', flag: '🇺🇿', rate: 12200.0 },        
+            { code: 'VES', name: 'Bolívar', country: 'Venezuela', flag: '🇻🇪', rate: 34.8 },        
+            { code: 'VND', name: 'Dong', country: 'Vietnam', flag: '🇻🇳', rate: 24400.0 },        
+            { code: 'VUV', name: 'Vatu', country: 'Vanuatu', flag: '🇻🇺', rate: 121.0 },        
+            { code: 'WST', name: 'Tala', country: 'Samoa', flag: '🇼🇸', rate: 2.76 },        
+            { code: 'XAF', name: 'CFA Franc', country: 'Central Africa', flag: '🇨🇫', rate: 618.0 },        
+            { code: 'XCD', name: 'Dollar', country: 'East Caribbean', flag: '🇦🇬', rate: 2.70 },        
+            { code: 'XOF', name: 'CFA Franc', country: 'West Africa', flag: '🇧🇯', rate: 618.0 },        
+            { code: 'XPF', name: 'Franc', country: 'CFP', flag: '🇵🇫', rate: 112.0 },        
+            { code: 'YER', name: 'Rial', country: 'Yemen', flag: '🇾🇪', rate: 250.0 },        
+            { code: 'ZAR', name: 'Rand', country: 'South Africa', flag: '🇿🇦', rate: 19.0 },        
+            { code: 'ZMW', name: 'Kwacha', country: 'Zambia', flag: '🇿🇲', rate: 21.5 },        
+            { code: 'ZWL', name: 'Dollar', country: 'Zimbabwe', flag: '🇿🇼', rate: 5500.0 }        
+        ];        
+        
+        let currencyData = [...rawCurrencyData];        
+        let sortedByCountry = [...currencyData].sort((a, b) => a.country.localeCompare(b.country));        
+        
+        // ✅ SAFE NUMBER FORMATTER (NEW)        
+        function formatRateNumber(n) {        
+            if (typeof n !== "number") return n;        
+            if (!isFinite(n)) return n;        
+            return n;        
+        }        
+        
+        // ✅ REAL-TIME MARKET CHANGE DETECTOR (NEW)        
+        function getChangeSymbol(oldVal, newVal, threshold) {        
+            if (typeof oldVal !== "number" || typeof newVal !== "number") return "";        
+            const diff = newVal - oldVal;        
+            if (Math.abs(diff) < threshold) return "";        
+            return diff > 0 ? "⬆" : "⬇";        
+        }        
+        
+        // ✅ FETCH LIVE FIAT CURRENCY (Up/Down + Auto Refresh)        
+        async function fetchLiveFiatRates() {        
+            const statusText = document.getElementById("apiStatusText");        
+            try {        
+                if(statusText){        
+                    statusText.innerText = "Connecting to Live API...";        
+                    statusText.style.color = "#888";        
+                }        
+        
+                // ✅ Primary API        
+                const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD', { cache: "no-store" });        
+                const data = await res.json();        
+        
+                if(!data || !data.rates){        
+                    throw new Error("Invalid API Response");        
+                }        
+        
+                // Snapshot for change detection        
+                const newSnapshot = {};        
+        
+                currencyData.forEach(curr => {        
+                    if (data.rates[curr.code]) {        
+                        newSnapshot[curr.code] = data.rates[curr.code];        
+                        curr.rate = data.rates[curr.code];        
+                    }        
+                });        
+        
+                lastFiatRatesSnapshot = newSnapshot;        
+        
+                if(statusText){        
+                    statusText.innerText = "✅ Live Rates Active (Auto Updating)";        
+                    statusText.style.color = "green";        
+                }        
+        
+                sortedByCountry = [...currencyData].sort((a, b) => a.country.localeCompare(b.country));        
+                initCurrencyDropdowns();        
+        
+                // If user is on All Rates section, refresh list        
+                if(document.getElementById('all-rates').classList.contains('active')) {        
+                    updateAllRates();        
+                }        
+        
+                // If user is on Single Currency section, update conversion output live        
+                if(document.getElementById('currency').classList.contains('active')) {        
+                    autoUpdateSingleConversion();        
+                }        
+        
+            } catch (error) {        
+                console.log("Fiat API Error. Using static data.", error);        
+                if(statusText){        
+                    statusText.innerText = "⚠️ Offline Mode: Using Standard Rates";        
+                    statusText.style.color = "orange";        
+                }        
+            }        
+        }        
+        
+        // ✅ Auto refresh single converter output (NEW)        
+        function autoUpdateSingleConversion() {        
+            const amountEl = document.getElementById('currencyAmount');        
+            const fromEl = document.getElementById('fromCurrency');        
+            const toEl = document.getElementById('toCurrency');        
+            if(!amountEl || !fromEl || !toEl) return;        
+        
+            const amount = parseFloat(amountEl.value);        
+            if(isNaN(amount)) return;        
+        
+            const fromCode = fromEl.value;        
+            const toCode = toEl.value;        
+        
+            const fromRate = currencyData.find(c => c.code === fromCode)?.rate || 1;        
+            const toRate = currencyData.find(c => c.code === toCode)?.rate || 1;        
+        
+            const convertedAmount = (amount / fromRate) * toRate;        
+            const resText = `${amount} ${fromCode} = ${convertedAmount.toFixed(2)} ${toCode}`;        
+            document.getElementById('currencyResult').textContent = resText;        
+        }        
+        
+        // ✅ REAL-TIME CRYPTO LOADER (Up/Down + Auto Refresh)        
+        async function loadCryptoData(isAuto = false) {        
+            if(!checkLockedFeature()) return; // ✅ LOCKED FEATURE        
+        
+            const container = document.getElementById('cryptoList');        
+            const loader = document.getElementById('cryptoLoading');        
+            if(!container || !loader) return;        
+        
+            if(!isAuto){        
+                loader.style.display = 'block';        
+                container.innerHTML = '';        
+            }        
+        
+            try {        
+                const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false', { cache: "no-store" });        
+                const coins = await res.json();        
+                if(!Array.isArray(coins)) throw new Error("Invalid Crypto API Response");        
+        
+                loader.style.display = 'none';        
+                coins.sort((a, b) => a.name.localeCompare(b.name));        
+        
+                const newCryptoSnapshot = {};        
+                coins.forEach(c => newCryptoSnapshot[c.symbol.toUpperCase()] = c.current_price);        
+        
+                // Render        
+                container.innerHTML = "";        
+                coins.forEach(coin => {        
+                    const sym = coin.symbol.toUpperCase();        
+                    const prev = lastCryptoPricesSnapshot[sym];        
+                    const now = coin.current_price;        
+                    const arrow = getChangeSymbol(prev, now, CHANGE_ALERT_THRESHOLD_CRYPTO);        
+        
+                    const item = document.createElement('div');        
+                    item.className = 'rate-item';        
+                    item.innerHTML = `        
+                        <div class="rate-info">        
+                            <img src="${coin.image}" class="crypto-img" alt="${coin.symbol}">        
+                            <div class="rate-details">        
+                                <span class="rate-country">${coin.name} ${arrow ? arrow : ""}</span>        
+                                <span class="rate-code">${sym}</span>        
+                            </div>        
+                        </div>        
+                        <div class="rate-value crypto-price">$${Number(now).toLocaleString()}</div>        
+                    `;        
+                    container.appendChild(item);        
+                });        
+        
+                lastCryptoPricesSnapshot = newCryptoSnapshot;        
+        
+            } catch (error) {        
+                loader.innerText = "⚠️ No Internet Connection. Cannot load live Crypto prices.";        
+                loader.style.display = 'block';        
+            }        
+        }        
+        
+        // ✅ Auto live refresh managers (NEW)        
+        function startLiveFiatAutoRefresh() {        
+            if(liveFiatInterval) clearInterval(liveFiatInterval);        
+            liveFiatInterval = setInterval(() => {        
+                fetchLiveFiatRates();        
+            }, LIVE_FIAT_REFRESH_MS);        
+        }        
+        
+        function startLiveCryptoAutoRefresh() {        
+            if(liveCryptoInterval) clearInterval(liveCryptoInterval);        
+            liveCryptoInterval = setInterval(() => {        
+                const cryptoSection = document.getElementById('crypto-market');        
+                if(cryptoSection && cryptoSection.classList.contains('active') && isPremiumActive()){        
+                    loadCryptoData(true);        
+                }        
+            }, LIVE_CRYPTO_REFRESH_MS);        
+        }        
+        
+        function showSection(sectionId, element) {        
+            if (element && element.classList.contains('locked-feature')) {        
+                if (!checkLockedFeature()) return;        
+            }        
+        
+            document.querySelectorAll('.section-view').forEach(div => div.classList.remove('active'));        
+            document.getElementById(sectionId).classList.add('active');        
+        
+            let title = "UltraCalc";        
+            if (element) {        
+                title = element.textContent.trim().replace("🔒", "").trim();        
+                document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));        
+                element.classList.add('active');        
+            }        
+            document.getElementById('pageTitle').textContent = title;        
+        
+            if (window.innerWidth <= 768) {        
+                document.getElementById('sidebar').classList.remove('open');        
+            }        
+        
+            if (sectionId === 'all-rates') updateAllRates();        
+            if (sectionId === 'crypto-market') loadCryptoData();        
+            if (sectionId === 'history-section') renderHistory();        
+            if (sectionId === 'currency') autoUpdateSingleConversion();        
+        }        
+        
+        function toggleSidebar() {        
+            document.getElementById('sidebar').classList.toggle('open');        
+        }        
+        
+        // --- NEW CALCULATOR LOGIC (PRO) ---        
+        function calcEMI() {        
+            if(!checkLimit()) return;        
+            const P = parseFloat(document.getElementById('emiP').value);        
+            const R = parseFloat(document.getElementById('emiR').value) / 12 / 100;        
+            const N = parseFloat(document.getElementById('emiN').value) * 12;        
+        
+            if(P && R && N) {        
+                const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);        
+                const totalAmt = emi * N;        
+                const totalInt = totalAmt - P;        
+        
+                const res = `EMI: ${emi.toFixed(2)}`;        
+                addToHistory("EMI Calculation", res);        
+        
+                document.getElementById('emiResult').innerHTML = `        
+                    <strong>Monthly EMI:</strong> ${emi.toFixed(2)}<br>        
+                    <strong>Total Interest:</strong> ${totalInt.toFixed(2)}<br>        
+                    <strong>Total Amount:</strong> ${totalAmt.toFixed(2)}        
+                `;        
+            }        
+        }        
+        
+        function calcSIP() {        
+            if(!checkLimit()) return;        
+            const P = parseFloat(document.getElementById('sipAmount').value);        
+            const i = parseFloat(document.getElementById('sipRate').value) / 12 / 100;        
+            const n = parseFloat(document.getElementById('sipYears').value) * 12;        
+        
+            if(P && i && n) {        
+                const fv = P * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);        
+                const invested = P * n;        
+                const returns = fv - invested;        
+        
+                addToHistory("SIP Returns", fv.toFixed(2));        
+        
+                document.getElementById('sipResult').innerHTML = `        
+                    <strong>Invested:</strong> ${invested.toFixed(2)}<br>        
+                    <strong>Returns:</strong> ${returns.toFixed(2)}<br>        
+                    <strong>Total Value:</strong> ${fv.toFixed(2)}        
+                `;        
+            }        
+        }        
+        
+        function calcFD() {        
+            if(!checkLimit()) return;        
+            const P = parseFloat(document.getElementById('fdAmount').value);        
+            const r = parseFloat(document.getElementById('fdRate').value) / 100;        
+            const t = parseFloat(document.getElementById('fdYears').value);        
+        
+            if(P && r && t) {        
+                const maturity = P * Math.pow(1 + r, t);        
+                addToHistory("FD Maturity", maturity.toFixed(2));        
+                document.getElementById('fdResult').innerHTML = `        
+                    <strong>Maturity Amount:</strong> ${maturity.toFixed(2)}        
+                `;        
+            }        
+        }        
+        
+        function convertSpeed() {        
+            if(!checkLimit()) return;        
+            const val = parseFloat(document.getElementById('speedValue').value);        
+            const from = document.getElementById('speedFrom').value;        
+            const to = document.getElementById('speedTo').value;        
+            if(isNaN(val)) return;        
+        
+            let ms;        
+            if(from === 'kmh') ms = val / 3.6;        
+            else if(from === 'mph') ms = val / 2.237;        
+            else ms = val;        
+        
+            let res;        
+            if(to === 'kmh') res = ms * 3.6;        
+            else if(to === 'mph') res = ms * 2.237;        
+            else res = ms;        
+        
+            const resText = `${val} ${from} = ${res.toFixed(2)} ${to}`;        
+            addToHistory("Speed Convert", resText);        
+            document.getElementById('speedResult').textContent = resText;        
+        }        
+        
+        function convertData() {        
+            if(!checkLimit()) return;        
+            const val = parseFloat(document.getElementById('dataValue').value);        
+            const from = document.getElementById('dataFrom').value;        
+            const to = document.getElementById('dataTo').value;        
+            if(isNaN(val)) return;        
+        
+            let mb;        
+            if(from === 'kb') mb = val / 1024;        
+            else if(from === 'mb') mb = val;        
+            else if(from === 'gb') mb = val * 1024;        
+            else if(from === 'tb') mb = val * 1024 * 1024;        
+        
+            let res;        
+            if(to === 'kb') res = mb * 1024;        
+            else if(to === 'mb') res = mb;        
+            else if(to === 'gb') res = mb / 1024;        
+            else if(to === 'tb') res = mb / (1024 * 1024);        
+        
+            const resText = `${res.toFixed(4)} ${to.toUpperCase()}`;        
+            addToHistory("Data Convert", resText);        
+            document.getElementById('dataResult').textContent = resText;        
+        }        
+        
+        function convertPower() {        
+            if(!checkLimit()) return;        
+            const val = parseFloat(document.getElementById('powerValue').value);        
+            const from = document.getElementById('powerFrom').value;        
+            const to = document.getElementById('powerTo').value;        
+            if(isNaN(val)) return;        
+        
+            let w;        
+            if(from === 'watt') w = val;        
+            else if(from === 'kw') w = val * 1000;        
+            else if(from === 'hp') w = val * 745.7;        
+        
+            let res;        
+            if(to === 'watt') res = w;        
+            else if(to === 'kw') res = w / 1000;        
+            else if(to === 'hp') res = w / 745.7;        
+        
+            const resText = `${res.toFixed(4)} ${to}`;        
+            addToHistory("Power Convert", resText);        
+            document.getElementById('powerResult').textContent = resText;        
+        }        
+        
+        // --- STANDARD CALCULATOR ---        
+        let display = document.getElementById('display');        
+        let currentInput = '0';        
+        let shouldResetDisplay = false;        
+        
+        function updateDisplay() {        
+            display.textContent = currentInput;        
+        }        
+        
+        function appendToDisplay(value) {        
+            if (currentInput === '0' || shouldResetDisplay) {        
+                currentInput = value;        
+                shouldResetDisplay = false;        
+            } else {        
+                currentInput += value;        
+            }        
+            updateDisplay();        
+        }        
+        
+        function clearDisplay() {        
+            currentInput = '0';        
+            updateDisplay();        
+        }        
+        
+        function backspace() {        
+            if (currentInput.length > 1) {        
+                currentInput = currentInput.slice(0, -1);        
+            } else {        
+                currentInput = '0';        
+            }        
+            updateDisplay();        
+        }        
+        
+        function calculateResult() {        
+            if(!checkLimit()) return;        
+        
+            try {        
+                const safeInput = currentInput.replace(/%/g, '/100');        
+                const originalInput = currentInput;        
+                currentInput = eval(safeInput).toString();        
+                addToHistory(originalInput, currentInput);        
+                updateDisplay();        
+                shouldResetDisplay = true;        
+            } catch (error) {        
+                currentInput = 'Error';        
+                updateDisplay();        
+                shouldResetDisplay = true;        
+            }        
+        } 
+        
+        // --- NEW SCIENTIFIC CALCULATOR LOGIC ---
+        let sciInput = '0';
+        let sciReset = false;
+        let isInv = false;
+        let isRad = true;
+        
+        function updateSciDisplay() {
+            document.getElementById('sciDisplay').textContent = sciInput;
+        }
+
+        function appendToSci(value) {
+            if (sciInput === '0' || sciInput === 'Error' || sciReset) {
+                sciInput = value;
+                sciReset = false;
+            } else {
+                sciInput += value;
+            }
+            updateSciDisplay();
+        }
+
+        function clearSci() {
+            sciInput = '0';
+            updateSciDisplay();
+        }
+
+        function backspaceSci() {
+            if(sciInput.length > 1) {
+                sciInput = sciInput.slice(0, -1);
+            } else {
+                sciInput = '0';
+            }
+            updateSciDisplay();
+        }
+
+        function toggleInv() {
+            isInv = !isInv;
+            const btnInv = document.getElementById('btnInv');
+            btnInv.style.backgroundColor = isInv ? '#fbbc05' : '#e8eaed';
+            btnInv.style.color = isInv ? '#fff' : '#333';
+
+            document.getElementById('btnSin').innerText = isInv ? 'sin⁻¹' : 'sin';
+            document.getElementById('btnCos').innerText = isInv ? 'cos⁻¹' : 'cos';
+            document.getElementById('btnTan').innerText = isInv ? 'tan⁻¹' : 'tan';
+            document.getElementById('btnLn').innerText  = isInv ? 'eˣ' : 'ln';
+            document.getElementById('btnLog').innerText = isInv ? '10ˣ' : 'log';
+            document.getElementById('btnSqrt').innerText = isInv ? 'x²' : '√';
+        }
+
+        function toggleRad() {
+            isRad = !isRad;
+            document.getElementById('btnRad').innerText = isRad ? 'RAD' : 'DEG';
+        }
+
+        function handleTrig(func) {
+            let op = func;
+            if(isInv) op = 'a' + func; // sin -> asin
+            appendToSci(op + '(');
+        }
+
+        function handleLog(type) {
+            if(type === 'ln') {
+                if(isInv) appendToSci('e^');
+                else appendToSci('ln(');
+            } else {
+                if(isInv) appendToSci('10^');
+                else appendToSci('log(');
+            }
+        }
+
+        function handleRoot() {
+            if(isInv) appendToSci('^2');
+            else appendToSci('√(');
+        }
+
+        // Helper to calculate factorial
+        function factorial(n) {
+            if(n < 0) return NaN;
+            if(n === 0 || n === 1) return 1;
+            let result = 1;
+            for(let i = 2; i <= n; i++) result *= i;
+            return result;
+        }
+
+        function calculateSci() {
+            if(!checkLockedFeature()) return;
+
+            try {
+                let evalString = sciInput;
+
+                // Handle Factorial (!)
+                // Replace number! with factorial(number)
+                evalString = evalString.replace(/(\d+)!/g, "factorial($1)");
+
+                // Handle Constants
+                evalString = evalString.replace(/π/g, 'Math.PI');
+                evalString = evalString.replace(/e/g, 'Math.E');
+
+                // Handle Power
+                evalString = evalString.replace(/\^/g, '**');
+
+                // Handle Roots
+                evalString = evalString.replace(/√\(/g, 'Math.sqrt(');
+
+                // Handle Log/Ln
+                evalString = evalString.replace(/log\(/g, 'Math.log10(');
+                evalString = evalString.replace(/ln\(/g, 'Math.log(');
+
+                // Handle Inverse Trig
+                // If DEG mode, we convert result of asin/acos/atan from Rad to Deg
+                if(!isRad) {
+                    evalString = evalString.replace(/asin\(([^)]+)\)/g, '(Math.asin($1) * 180 / Math.PI)');
+                    evalString = evalString.replace(/acos\(([^)]+)\)/g, '(Math.acos($1) * 180 / Math.PI)');
+                    evalString = evalString.replace(/atan\(([^)]+)\)/g, '(Math.atan($1) * 180 / Math.PI)');
+                } else {
+                    evalString = evalString.replace(/asin\(/g, 'Math.asin(');
+                    evalString = evalString.replace(/acos\(/g, 'Math.acos(');
+                    evalString = evalString.replace(/atan\(/g, 'Math.atan(');
+                }
+
+                // Handle Normal Trig
+                // If DEG mode, convert input to Radians: sin(x) -> Math.sin(x * PI / 180)
+                if(!isRad) {
+                    evalString = evalString.replace(/sin\(([^)]+)\)/g, 'Math.sin(($1) * Math.PI / 180)');
+                    evalString = evalString.replace(/cos\(([^)]+)\)/g, 'Math.cos(($1) * Math.PI / 180)');
+                    evalString = evalString.replace(/tan\(([^)]+)\)/g, 'Math.tan(($1) * Math.PI / 180)');
+                } else {
+                    evalString = evalString.replace(/sin\(/g, 'Math.sin(');
+                    evalString = evalString.replace(/cos\(/g, 'Math.cos(');
+                    evalString = evalString.replace(/tan\(/g, 'Math.tan(');
+                }
+
+                const result = eval(evalString);
+                
+                // Keep precision clean
+                let finalRes = parseFloat(result.toFixed(8)).toString();
+                if(finalRes === 'NaN') finalRes = 'Error';
+                
+                addToHistory("Scientific", finalRes);
+                sciInput = finalRes;
+                sciReset = true;
+            } catch (e) {
+                console.log(e);
+                sciInput = 'Error';
+                sciReset = true;
+            }
+            updateSciDisplay();
+        }
+        
+        // --- CURRENCY DROPDOWNS ---        
+        function initCurrencyDropdowns() {        
+            const fromSelect = document.getElementById('fromCurrency');        
+            const toSelect = document.getElementById('toCurrency');        
+            const baseAllSelect = document.getElementById('baseCurrencyAll');        
+        
+            const currentFrom = fromSelect.value || 'USD';        
+            const currentTo = toSelect.value || 'INR';        
+            const currentBase = baseAllSelect.value || 'USD';        
+        
+            let optionsHTML = '';        
+            sortedByCountry.forEach(c => {        
+                optionsHTML += `<option value="${c.code}">${c.flag} ${c.country} (${c.code}) - ${c.name}</option>`;        
+            });        
+        
+            fromSelect.innerHTML = optionsHTML;        
+            toSelect.innerHTML = optionsHTML;        
+            baseAllSelect.innerHTML = optionsHTML;        
+        
+            fromSelect.value = currentFrom;        
+            toSelect.value = currentTo;        
+            baseAllSelect.value = currentBase;        
+        }        
+        
+        function convertCurrency() {        
+            if(!checkLimit()) return;        
+        
+            const amount = parseFloat(document.getElementById('currencyAmount').value);        
+            const fromCode = document.getElementById('fromCurrency').value;        
+            const toCode = document.getElementById('toCurrency').value;        
+        
+            if (isNaN(amount)) return;        
+        
+            const fromRate = currencyData.find(c => c.code === fromCode)?.rate || 1;        
+            const toRate = currencyData.find(c => c.code === toCode)?.rate || 1;        
+        
+            const convertedAmount = (amount / fromRate) * toRate;        
+            const resText = `${amount} ${fromCode} = ${convertedAmount.toFixed(2)} ${toCode}`;        
+            addToHistory("Currency", resText);        
+            document.getElementById('currencyResult').textContent = resText;        
+        }        
+        
+        function updateAllRates() {        
+            if(!checkLockedFeature()) return;        
+        
+            const baseAmount = parseFloat(document.getElementById('baseAmountAll').value) || 1;        
+            const baseCode = document.getElementById('baseCurrencyAll').value;        
+            const listContainer = document.getElementById('allRatesList');        
+            const searchText = document.getElementById('searchCurrency').value.toLowerCase();        
+        
+            listContainer.innerHTML = '';        
+        
+            const baseRate = currencyData.find(c => c.code === baseCode)?.rate || 1;        
+        
+            sortedByCountry.forEach(curr => {        
+                if (        
+                    searchText &&        
+                    !curr.country.toLowerCase().includes(searchText) &&        
+                    !curr.name.toLowerCase().includes(searchText)        
+                ) return;        
+        
+                const val = (baseAmount / baseRate) * curr.rate;        
+                const oldVal = lastFiatRatesSnapshot[curr.code];        
+                const arrow = getChangeSymbol(oldVal, curr.rate, CHANGE_ALERT_THRESHOLD_FIAT);        
+        
+                const item = document.createElement('div');        
+                item.className = 'rate-item';        
+                item.innerHTML = `        
+                    <div class="rate-info">        
+                        <span class="rate-flag">${curr.flag}</span>        
+                        <div class="rate-details">        
+                            <span class="rate-country">${curr.country} ${arrow ? arrow : ""}</span>        
+                            <span class="rate-code">${curr.code} - ${curr.name}</span>        
+                        </div>        
+                    </div>        
+                    <div class="rate-value">${Number(val).toFixed(2)}</div>        
+                `;        
+                listContainer.appendChild(item);        
+            });        
+        }        
+        
+        // --- TIME CALCULATOR ---        
+        function convertTime() {        
+            if(!checkLimit()) return;        
+        
+            const value = parseFloat(document.getElementById('timeValue').value);        
+            const unit = document.getElementById('timeUnit').value;        
+            if (isNaN(value)) return;        
+        
+            let seconds = 0;        
+            switch (unit) {        
+                case 'milliseconds': seconds = value / 1000; break;        
+                case 'seconds': seconds = value; break;        
+                case 'minutes': seconds = value * 60; break;        
+                case 'hours': seconds = value * 3600; break;        
+                case 'days': seconds = value * 86400; break;        
+                case 'weeks': seconds = value * 604800; break;        
+                case 'months': seconds = value * 2592000; break;        
+                case 'years': seconds = value * 31536000; break;        
+            }        
+        
+            const ms = seconds * 1000;        
+            const m = seconds / 60;        
+            const h = seconds / 3600;        
+            const d = seconds / 86400;        
+            const w = seconds / 604800;        
+            const mo = seconds / 2592000;        
+            const y = seconds / 31536000;        
+        
+            document.getElementById('timeResult').innerHTML = `        
+                <strong>${value} ${unit} equals:</strong><br><br>        
+                ${ms.toLocaleString()} Milliseconds<br>        
+                ${seconds.toLocaleString()} Seconds<br>        
+                ${m.toFixed(2)} Minutes<br>        
+                ${h.toFixed(2)} Hours<br>        
+                ${d.toFixed(2)} Days<br>        
+                ${w.toFixed(2)} Weeks<br>        
+                ${mo.toFixed(2)} Months<br>        
+                ${y.toFixed(4)} Years        
+            `;        
+        }        
+        
+        // ✅ FIXED TIME OPERATIONS CALCULATOR
+        function calculateTime() {        
+            if(!checkLimit()) return;        
+            
+            const t1 = document.getElementById('time1').value;
+            const t2 = document.getElementById('time2').value;
+            const op = document.getElementById('timeOperation').value;
+            
+            if(!t1.includes(":") || !t2.includes(":")) {
+                document.getElementById('timeOpResult').textContent = "Please enter time in HH:MM:SS format";
+                return;
+            }
+
+            // Helper to parse HH:MM:SS
+            const parseSec = (t) => {
+                const p = t.split(':').map(Number);
+                const h = p[0] || 0;
+                const m = p[1] || 0;
+                const s = p[2] || 0;
+                return (h * 3600) + (m * 60) + s;
+            };
+
+            const s1 = parseSec(t1);
+            const s2 = parseSec(t2);
+            let total = 0;
+
+            if(op === 'add') total = s1 + s2;
+            else total = Math.abs(s1 - s2);
+
+            // Convert back
+            const h = Math.floor(total / 3600);
+            total %= 3600;
+            const m = Math.floor(total / 60);
+            const s = total % 60;
+
+            // Pad with zero
+            const pad = (n) => n < 10 ? '0'+n : n;
+            const res = `${pad(h)}:${pad(m)}:${pad(s)}`;
+
+            document.getElementById('timeOpResult').innerHTML = `Result: <strong>${res}</strong>`;
+            addToHistory("Time Calc", res);
+        }        
+        
+        // --- UNIT CONVERTERS ---        
+        function convertLength() {        
+            if(!checkLimit()) return;        
+            const value = parseFloat(document.getElementById('lengthValue').value);        
+            const fromUnit = document.getElementById('lengthFrom').value;        
+            const toUnit = document.getElementById('lengthTo').value;        
+            if (isNaN(value)) return;        
+        
+            let meters;        
+            switch (fromUnit) {        
+                case 'millimeters': meters = value / 1000; break;        
+                case 'centimeters': meters = value / 100; break;        
+                case 'meters': meters = value; break;        
+                case 'kilometers': meters = value * 1000; break;        
+                case 'inches': meters = value * 0.0254; break;        
+                case 'feet': meters = value * 0.3048; break;        
+            }        
+        
+            let result;        
+            switch (toUnit) {        
+                case 'millimeters': result = meters * 1000; break;        
+                case 'centimeters': result = meters * 100; break;        
+                case 'meters': result = meters; break;        
+                case 'kilometers': result = meters / 1000; break;        
+                case 'inches': result = meters / 0.0254; break;        
+                case 'feet': result = meters / 0.3048; break;        
+            }        
+                    
+            const resText = `${value} ${fromUnit} = ${result.toFixed(4)} ${toUnit}`;        
+            addToHistory("Length", resText);        
+            document.getElementById('lengthResult').textContent = resText;        
+        }        
+        
+        function convertArea() {        
+            if(!checkLimit()) return;        
+            const value = parseFloat(document.getElementById('areaValue').value);        
+            const fromUnit = document.getElementById('areaFrom').value;        
+            const toUnit = document.getElementById('areaTo').value;        
+            if (isNaN(value)) return;        
+        
+            let sqMeters;        
+            if (fromUnit === 'sqMeters') sqMeters = value;        
+            else if (fromUnit === 'sqFeet') sqMeters = value * 0.0929;        
+            else if (fromUnit === 'acres') sqMeters = value * 4046.86;        
+        
+            let result;        
+            if (toUnit === 'sqMeters') result = sqMeters;        
+            else if (toUnit === 'sqFeet') result = sqMeters / 0.0929;        
+            else if (toUnit === 'acres') result = sqMeters / 4046.86;        
+        
+            document.getElementById('areaResult').textContent = `${result.toFixed(4)} ${toUnit}`;        
+        }        
+        
+        function convertVolume() {        
+            if(!checkLimit()) return;        
+            const value = parseFloat(document.getElementById('volumeValue').value);        
+            const fromUnit = document.getElementById('volumeFrom').value;        
+            const toUnit = document.getElementById('volumeTo').value;        
+            if (isNaN(value)) return;        
+        
+            let liters;        
+            if (fromUnit === 'liters') liters = value;        
+            else if (fromUnit === 'milliliters') liters = value / 1000;        
+            else if (fromUnit === 'gallons') liters = value * 3.785;        
+        
+            let result;        
+            if (toUnit === 'liters') result = liters;        
+            else if (toUnit === 'milliliters') result = liters * 1000;        
+            else if (toUnit === 'gallons') result = liters / 3.785;        
+        
+            document.getElementById('volumeResult').textContent = `${result.toFixed(4)} ${toUnit}`;        
+        }        
+        
+        function convertWeight() {        
+            if(!checkLimit()) return;        
+            const value = parseFloat(document.getElementById('weightValue').value);        
+            const fromUnit = document.getElementById('weightFrom').value;        
+            const toUnit = document.getElementById('weightTo').value;        
+            if (isNaN(value)) return;        
+        
+            let kg;        
+            switch (fromUnit) {        
+                case 'kilograms': kg = value; break;        
+                case 'grams': kg = value / 1000; break;        
+                case 'pounds': kg = value * 0.453592; break;        
+            }        
+        
+            let result;        
+            switch (toUnit) {        
+                case 'kilograms': result = kg; break;        
+                case 'grams': result = kg * 1000; break;        
+                case 'pounds': result = kg / 0.453592; break;        
+            }        
+        
+            document.getElementById('weightResult').textContent = `${result.toFixed(4)} ${toUnit}`;        
+        }        
+        
+        function convertTemperature() {        
+            if(!checkLimit()) return;        
+            const value = parseFloat(document.getElementById('tempValue').value);        
+            const fromUnit = document.getElementById('tempFrom').value;        
+            const toUnit = document.getElementById('tempTo').value;        
+            if (isNaN(value)) return;        
+        
+            let c;        
+            if (fromUnit === 'celsius') c = value;        
+            if (fromUnit === 'fahrenheit') c = (value - 32) * 5 / 9;        
+            if (fromUnit === 'kelvin') c = value - 273.15;        
+        
+            let result;        
+            if (toUnit === 'celsius') result = c;        
+            if (toUnit === 'fahrenheit') result = (c * 9 / 5) + 32;        
+            if (toUnit === 'kelvin') result = c + 273.15;        
+        
+            document.getElementById('tempResult').textContent = `${result.toFixed(2)} ${toUnit}`;        
+        }        
+        
+        function calcPercentageValue() {        
+            if(!checkLimit()) return;        
+            const percent = parseFloat(document.getElementById('percPercent').value);        
+            const value = parseFloat(document.getElementById('percValue').value);        
+            if (!isNaN(percent) && !isNaN(value)) {        
+                document.getElementById('percValueResult').textContent = (percent / 100) * value;        
+            }        
+        }        
+        
+        function calcWhatPercent() {        
+            if(!checkLimit()) return;        
+            const part = parseFloat(document.getElementById('percPart').value);        
+            const total = parseFloat(document.getElementById('percTotal').value);        
+            if (!isNaN(part) && !isNaN(total) && total !== 0) {        
+                document.getElementById('percWhatResult').textContent = ((part / total) * 100).toFixed(2) + "%";        
+            }        
+        }        
+        
+        // ✅ INIT        
+        initCurrencyDropdowns();        
+        fetchLiveFiatRates();        
+        startLiveFiatAutoRefresh();        
+        startLiveCryptoAutoRefresh();        
+        updateBadge();        
+        
+        // ✅ Auto update single converter when dropdown changes (NEW)        
+        document.getElementById('fromCurrency').addEventListener("change", autoUpdateSingleConversion);        
+        document.getElementById('toCurrency').addEventListener("change", autoUpdateSingleConversion);        
+        document.getElementById('currencyAmount').addEventListener("input", autoUpdateSingleConversion);        
+        
+        if(isPremiumActive()){        
+            document.querySelectorAll('.locked-feature').forEach(el => {        
+                el.style.opacity = "1";        
+                el.querySelector('.lock-icon').innerText = "";        
+            });        
+        }        
+    </script>        
+</body>    
+</html>
